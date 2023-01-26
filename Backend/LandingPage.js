@@ -5,6 +5,19 @@ export let signerAddress
 let nftBoxes = document.querySelector(".UserNFTs");
 
 let RecipientTradeBox = document.getElementById("RecipientTradeBox")
+
+let UserSelected = new Set()
+let RecipientSelected = new Set()
+
+class nftInfo {
+  constructor(contractAddress, ID, ImgURL) {
+  this.contractAddress = contractAddress
+  this.ID = ID
+  this.ImgURL = ImgURL
+  this.Selected = false;
+
+  }
+}
 window.onload = async function() {
     document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
 }
@@ -41,11 +54,8 @@ async function displayRecipientNfts() {
     let userAddress = await inputField.value;
     console.log(`user address ${userAddress}`)
 
-
-
     let chooseRecipientAddress = await document.getElementById("chooseRecipientTradeBox")
     await chooseRecipientAddress.remove();
-
 
     axios.get(`https://testnets-api.opensea.io/api/v1/assets?owner=${userAddress}&limit=50`)
       .then(function (response) {
@@ -58,12 +68,15 @@ async function displayRecipientNfts() {
             let nftTokenContractAddress = nft.contract_address;
             let nftImageUrl = nft.image_url; // add this line to get the image url
 
+            let newNft = new nftInfo(nft.contract_address, nft.token_id, nft.image_url);
+
             // create a new div for this NFT
             let nftBox = document.createElement("div");
             nftBox.className = "nftBox"
             nftBox.classList.add("nftBox");
             nftBox.addEventListener("click", function() {
-                this.classList.toggle("selected");
+                //this.classList.toggle("selected");
+                addToSelected(RecipientSelected, newNft)
             });
 
             nftBox.style.backgroundImage = 'url(' + nftImageUrl + ')';
@@ -76,6 +89,23 @@ async function displayRecipientNfts() {
         console.log(error);
       });
 }
+
+async function addToSelected(list, nft) {
+  if (nft.Selected == false) {
+
+    list.add(nft);
+    nft.Selected = true;
+    
+    
+  } else {
+    list.delete(nft)
+    nft.Selected = false;
+  }
+
+  const allNfts = [...UserSelected]
+  console.log(`len ${allNfts.length}`)
+}
+
 
 async function chooseRecipientTradeBox() {
 
@@ -128,12 +158,15 @@ async function createNFTBoxes() {
             let nftTokenContractAddress = nft.contract_address;
             let nftImageUrl = nft.image_url; // add this line to get the image url
 
+            let newNft = new nftInfo(nft.contract_address, nft.token_id, nft.image_url);
+
             // create a new div for this NFT
             let nftBox = document.createElement("div");
             nftBox.className = "nftBox"
             nftBox.classList.add("nftBox");
             nftBox.addEventListener("click", function() {
-                this.classList.toggle("selected");
+                //this.classList.toggle("selected");
+                addToSelected(UserSelected, newNft)
             });
 
             nftBox.style.backgroundImage = 'url(' + nftImageUrl + ')';
