@@ -1,7 +1,10 @@
-
 export let provider = new ethers.providers.Web3Provider(window.ethereum)
 export let signer
 export let signerAddress
+export let recipientAddress
+
+const tradeContractAddress = 0;
+const tradeABI = [];
 
 let nftBoxes = document.querySelector(".UserNFTs");
 
@@ -16,12 +19,32 @@ class nftInfo {
   this.ID = ID
   this.ImgURL = ImgURL
   this.Selected = false;
-
   }
 }
 
 window.onload = async function() {
     document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
+}
+
+async function createTradeRequest() {
+  let requesterNftAddresses = []
+  let requesterNftIDs = []
+
+  let recipientNftAddresses = []
+  let recipientNftIDs = []
+
+  for (let i = 0; i < UserSelected.length; i++) {
+    requesterNftAddresses.push(UserSelected[i].contractAddress)
+    requesterNftIDs.push(UserSelected[i].ID)
+  }
+
+  for (let i = 0; i < RecipientSelected.length; i++) {
+    recipientNftAddresses.push(RecipientSelected[i].contractAddress)
+    recipientNftIDs.push(RecipientSelected[i].ID)
+  }
+
+  const contract = await new ethers.Contract(tradeContractAddress, tradeABI, provider);
+  const transaction = await contract.connect(signer).createTradeRequest(recipientAddress, requesterNftAddresses, requesterNftIDs, recipientNftAddresses, recipientNftIDs)
 }
 
 export async function connectMetamask() {
@@ -52,9 +75,27 @@ export async function connectMetamask() {
 
 async function displayRecipientNfts() {
     let inputField = await document.getElementById("chosenRecipientAddress")
-   
+    recipientAddress = inputField;
+
     let userAddress = await inputField.value;
     console.log(`user address ${userAddress}`)
+
+    let backButton = await document.createElement("button");
+    backButton.textContent = "back";
+    backButton.className = "recipientNftsBackButton"
+    backButton
+    let RecipientBoxTitle = await document.querySelector(".RecipientBoxTitle");
+
+    backButton.style.position = "fixed";
+    backButton.style.left = "79.5vh";
+    backButton.style.top = "8.2vh"
+
+    await backButton.addEventListener("click", function() {
+      
+      setupFirstRecipientTradeBox(backButton);
+    });
+    
+    RecipientBoxTitle.insertBefore(backButton, RecipientBoxTitle.firstChild)
 
     let chooseRecipientAddress = await document.getElementById("chooseRecipientTradeBox")
     await chooseRecipientAddress.remove();
@@ -92,22 +133,30 @@ async function displayRecipientNfts() {
       });
 }
 
+async function setupFirstRecipientTradeBox(backBtn) {
+  console.log(`child count ${RecipientTradeBox.children.length}`)
+  //while there is still a child
+  while (RecipientTradeBox.firstChild) {
+    RecipientTradeBox.removeChild(RecipientTradeBox.firstChild)
+  }
+
+  chooseRecipientTradeBox()
+  
+  backBtn.parentNode.removeChild(backBtn);
+}
+
 async function addToSelected(set, nft) {
   if (nft.Selected == false) {
-
     set.add(nft);
     nft.Selected = true;
-    
-    
+  
   } else {
     set.delete(nft)
     nft.Selected = false;
   }
 }
 
-
 async function chooseRecipientTradeBox() {
-
     let starterDiv = document.createElement("div");
     starterDiv.id = "chooseRecipientTradeBox"
 

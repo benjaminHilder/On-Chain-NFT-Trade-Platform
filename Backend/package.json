@@ -11,8 +11,5 @@
   "license": "ISC",
   "devDependencies": {
     "hardhat": "^2.12.6"
-  },
-  "dependencies": {
-    "firebase": "^9.16.0"
   }
 }

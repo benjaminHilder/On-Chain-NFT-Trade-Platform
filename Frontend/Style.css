@@ -79,7 +79,7 @@ div.TradeArea > div.UserTradeBox {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
 
 }
 
@@ -154,6 +154,11 @@ div.UserNFTs {
 
     justify-content: center;
     align-items: center;
+}
+
+.RecipientBoxTitle {
+    display: flex;
+    flex-direction: row;
 }
 
 .nftBox img{

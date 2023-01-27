@@ -81,7 +81,6 @@ contract NFTTrade{
             nftAddress = trade.requesterNftAddresses;
             nftIDs = trade.requesterNftIDs;
             
-
         } else {
             nftAddress = trade.recipientNftAddresses;
             nftIDs = trade.recipientNftIDs;
@@ -97,7 +96,6 @@ contract NFTTrade{
 
                 msg.sender.delegatecall(data);
             }
-        
 
         if (trade.requesterAddress == msg.sender) {
             tradeOffers[msg.sender][_index].requesterReady = true;
