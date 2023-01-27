@@ -1,8 +1,3 @@
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { ethers } from 'ethers';
-
-const crypto = require('crypto');
 
 export let provider = new ethers.providers.Web3Provider(window.ethereum)
 export let signer
@@ -15,28 +10,6 @@ let RecipientTradeBox = document.getElementById("RecipientTradeBox")
 let UserSelected = new Set()
 let RecipientSelected = new Set()
 
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCtQwoCVLyGZtzY6jfebdOrBL9B1Ts-lhs",
-  authDomain: "nft-trade-platform.firebaseapp.com",
-  projectId: "nft-trade-platform",
-  storageBucket: "nft-trade-platform.appspot.com",
-  messagingSenderId: "289639626075",
-  appId: "1:289639626075:web:aa1dae118296cfff4e967e",
-  measurementId: "G-HJW2SHLWDX"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-const db = firebase.firestore();
-
 class nftInfo {
   constructor(contractAddress, ID, ImgURL) {
   this.contractAddress = contractAddress
@@ -47,57 +20,8 @@ class nftInfo {
   }
 }
 
-class TradeData {
-  constructor(hash, nftsBeingReceived, nftsBeingSent, recipientWalletAddress, requesterWalletAddress, status, timestamp) {
-    this.Hash = hash;
-    this.NFTsReceived = nftsBeingReceived;
-    this.NFTsSent = nftsBeingSent;
-    this.RecipientWalletAddress = recipientWalletAddress;
-    this.RequesterWalletAddress = requesterWalletAddress;
-    this.Status = status;
-    this.Timestamp = timestamp;
-  }
-}
-
-async function createHash(nftsBeingReceived, nftsBeingSent, recipientWalletAddress, requesterWalletAddress, status, timestamp) {
-  const jsonTrade = JSON.stringify(nftsBeingReceived, nftsBeingSent, recipientWalletAddress, requesterWalletAddress, status, timestamp);
-  const hash = crypto.createHash('sha256').update(jsonTrade).digest('hex');
-  return hash;
-}
-
 window.onload = async function() {
     document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
-}
-
-async function makeTradeRequest(nftsBeingReceived, nftsBeingSent, recipientWalletAddress, requesterWalletAddress, status, timestamp) {
-  let latestBlock = await provider.getBlock("latest");
-  let { timestamp } = latestBlock
-
-  let hash = await createHash(nftsBeingReceived, nftsBeingSent, recipientWalletAddress, requesterWalletAddress, status, timestamp);
-
-  let newTradeRequest = new TradeData(hash, nftsBeingReceived, nftsBeingSent, recipientWalletAddress, requesterWalletAddress, status, timestamp)
-
-  addTradeRequestToDB(newTradeRequest)
-
-  //add to smart contract the hash
-}
-
-function addTradeRequestToDB(tradeData) {
-  db.collection("TradeRequest").add({
-    Hash: tradeData.Hash,
-    NFTsRecieved: tradeData.NFTsRecieved,
-    NFTsSent: tradeData.NFTsSent,
-    RecipientAddress: tradeData.RecipientWalletAddress,
-    RequesterAddress: tradeData.RequesterWalletAddress,
-    Status: tradeData.Status,
-    Timestamp: tradeData.Timestamp
-  })
-    .then(function(docRef) {
-    console.log("Trade added with ID: ", docRef.id);
-  })
-    .catch(function(error) {
-    console.error("Error adding trade: ", error);
-  });
 }
 
 export async function connectMetamask() {

@@ -119,9 +119,7 @@ contract NFTTrade{
         for (uint i = 0; i < trade.recipientNftAddresses.length; i++) {
             ERC721 NFT = ERC721(trade.recipientNftAddresses[i]);
             NFT.transferFrom(trade.requesterAddress, trade.recipientAddress, trade.requesterNftIDs[i]);
-        
         }
-
     }
     
     function acceptTrade(uint _tradeOfferIndex) public TradeMustBeActive(_tradeOfferIndex) {
