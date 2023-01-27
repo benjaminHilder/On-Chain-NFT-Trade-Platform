@@ -83,19 +83,24 @@ async function displayRecipientNfts() {
     let backButton = await document.createElement("button");
     backButton.textContent = "back";
     backButton.className = "recipientNftsBackButton"
-    backButton
     let RecipientBoxTitle = await document.querySelector(".RecipientBoxTitle");
 
     backButton.style.position = "fixed";
-    backButton.style.left = "79.5vh";
-    backButton.style.top = "8.2vh"
+    backButton.style.left = "140vh";
+
+    let createTradeOfferButton = await document.createElement("button")
+    createTradeOfferButton.textContent = "Create Trade Offer"
+    createTradeOfferButton.className = "tradeOfferButton"
+
+    createTradeOfferButton.style.position = "fixed";
+    createTradeOfferButton.style.left = "45.5%";
 
     await backButton.addEventListener("click", function() {
-      
-      setupFirstRecipientTradeBox(backButton);
+      setupFirstRecipientTradeBox(backButton, createTradeOfferButton);
     });
     
     RecipientBoxTitle.insertBefore(backButton, RecipientBoxTitle.firstChild)
+    RecipientBoxTitle.insertBefore(createTradeOfferButton, RecipientBoxTitle.firstChild)
 
     let chooseRecipientAddress = await document.getElementById("chooseRecipientTradeBox")
     await chooseRecipientAddress.remove();
@@ -133,7 +138,7 @@ async function displayRecipientNfts() {
       });
 }
 
-async function setupFirstRecipientTradeBox(backBtn) {
+async function setupFirstRecipientTradeBox(backBtn, tradeOfferBtn) {
   console.log(`child count ${RecipientTradeBox.children.length}`)
   //while there is still a child
   while (RecipientTradeBox.firstChild) {
@@ -143,6 +148,7 @@ async function setupFirstRecipientTradeBox(backBtn) {
   chooseRecipientTradeBox()
   
   backBtn.parentNode.removeChild(backBtn);
+  tradeOfferBtn.parentNode.removeChild(tradeOfferBtn);
 }
 
 async function addToSelected(set, nft) {
