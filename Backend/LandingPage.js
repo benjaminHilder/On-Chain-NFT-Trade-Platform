@@ -49,13 +49,13 @@ class nftInfo {
 
 class TradeData {
   constructor(hash, nftsBeingReceived, nftsBeingSent, recipientWalletAddress, requesterWalletAddress, status, timestamp) {
-    this.hash = hash;
-    this.nftsReceived = nftsBeingReceived;
-    this.nftsSent = nftsBeingSent;
-    this.recipientWalletAddress = recipientWalletAddress;
-    this.requesterWalletAddress = requesterWalletAddress;
-    this.status = status;
-    this.timestamp = timestamp;
+    this.Hash = hash;
+    this.NFTsReceived = nftsBeingReceived;
+    this.NFTsSent = nftsBeingSent;
+    this.RecipientWalletAddress = recipientWalletAddress;
+    this.RequesterWalletAddress = requesterWalletAddress;
+    this.Status = status;
+    this.Timestamp = timestamp;
   }
 }
 
@@ -83,20 +83,22 @@ async function makeTradeRequest(nftsBeingReceived, nftsBeingSent, recipientWalle
 }
 
 function addTradeRequestToDB(tradeData) {
-    db.collection("TradeRequest").add({
-      Hash: tradeData.hash,
-      NFTsRecieved: tradeData.NFTsRecieved,
-      NFTsSent: tradeData.NFTsSent,
-
-    })
-      .then(function(docRef) {
-      console.log("Trade added with ID: ", docRef.id);
+  db.collection("TradeRequest").add({
+    Hash: tradeData.Hash,
+    NFTsRecieved: tradeData.NFTsRecieved,
+    NFTsSent: tradeData.NFTsSent,
+    RecipientAddress: tradeData.RecipientWalletAddress,
+    RequesterAddress: tradeData.RequesterWalletAddress,
+    Status: tradeData.Status,
+    Timestamp: tradeData.Timestamp
   })
-.catch(function(error) {
+    .then(function(docRef) {
+    console.log("Trade added with ID: ", docRef.id);
+  })
+    .catch(function(error) {
     console.error("Error adding trade: ", error);
   });
 }
-
 
 export async function connectMetamask() {
     await provider.send("eth_requestAccounts", []);
