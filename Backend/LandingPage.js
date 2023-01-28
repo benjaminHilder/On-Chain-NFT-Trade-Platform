@@ -4,243 +4,7 @@ export let signerAddress
 export let recipientAddress
 
 const tradeContractAddress = "0x2Fd136348FeF6BFD12CF5803e914dfeF665A9fA8";
-const tradeABI = [
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_tradeOfferIndex",
-				"type": "uint256"
-			}
-		],
-		"name": "acceptTrade",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_recipientAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "address[]",
-				"name": "_requesterNftAddresses",
-				"type": "address[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "_requesterNftIDs",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "address[]",
-				"name": "_recipientNftAddresses",
-				"type": "address[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "_recipientNftIDs",
-				"type": "uint256[]"
-			}
-		],
-		"name": "createTradeRequest",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_tradeOfferIndex",
-				"type": "uint256"
-			}
-		],
-		"name": "declineTrade",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_index",
-				"type": "uint256"
-			}
-		],
-		"name": "excuteTrade",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_index",
-				"type": "uint256"
-			}
-		],
-		"name": "giveContractAccessToNFTs",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_address",
-				"type": "address"
-			}
-		],
-		"name": "getAllOffers",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "requesterAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "recipientAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "address[]",
-						"name": "requesterNftAddresses",
-						"type": "address[]"
-					},
-					{
-						"internalType": "uint256[]",
-						"name": "requesterNftIDs",
-						"type": "uint256[]"
-					},
-					{
-						"internalType": "address[]",
-						"name": "recipientNftAddresses",
-						"type": "address[]"
-					},
-					{
-						"internalType": "uint256[]",
-						"name": "recipientNftIDs",
-						"type": "uint256[]"
-					},
-					{
-						"internalType": "uint256",
-						"name": "requesterIndex",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "recipientIndex",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "timestamp",
-						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "active",
-						"type": "bool"
-					},
-					{
-						"internalType": "bool",
-						"name": "result",
-						"type": "bool"
-					},
-					{
-						"internalType": "bool",
-						"name": "requesterReady",
-						"type": "bool"
-					},
-					{
-						"internalType": "bool",
-						"name": "recipientReady",
-						"type": "bool"
-					}
-				],
-				"internalType": "struct NFTTrade.TradeInfo[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "tradeOffers",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "requesterAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "recipientAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "requesterIndex",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "recipientIndex",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "timestamp",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "active",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "result",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "requesterReady",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "recipientReady",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
+
 
 let nftBoxes = document.querySelector(".UserNFTs");
 
@@ -283,16 +47,6 @@ async function createTradeRequest() {
     recipientNftAddresses.push(RecipientSelectedArray[i].contractAddress.address)
     recipientNftIDs.push(RecipientSelectedArray[i].ID)
   }
-
-  console.log(requesterNftAddresses)
-
-
-  console.log(recipientAddress)
-
-  console.log(`req add ${requesterNftAddresses}`)
-  console.log(`req id ${requesterNftIDs}`)
-  console.log(`rec add ${recipientNftAddresses}`)
-  console.log(`rec id ${recipientNftIDs}`)
 
   const contract = await new ethers.Contract(tradeContractAddress, tradeABI, provider);
   const transaction = await contract.connect(signer).createTradeRequest(ethers.utils.getAddress(recipientAddress), recipientNftAddresses, recipientNftIDs, requesterNftAddresses, requesterNftIDs)
@@ -500,3 +254,241 @@ async function createNFTBoxes() {
         console.log(error);
       });
     }
+
+    const tradeABI = [
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_tradeOfferIndex",
+            "type": "uint256"
+          }
+        ],
+        "name": "acceptTrade",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_recipientAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address[]",
+            "name": "_requesterNftAddresses",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "_requesterNftIDs",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "address[]",
+            "name": "_recipientNftAddresses",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "_recipientNftIDs",
+            "type": "uint256[]"
+          }
+        ],
+        "name": "createTradeRequest",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_tradeOfferIndex",
+            "type": "uint256"
+          }
+        ],
+        "name": "declineTrade",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_index",
+            "type": "uint256"
+          }
+        ],
+        "name": "excuteTrade",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_index",
+            "type": "uint256"
+          }
+        ],
+        "name": "giveContractAccessToNFTs",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_address",
+            "type": "address"
+          }
+        ],
+        "name": "getAllOffers",
+        "outputs": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "requesterAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "recipientAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "address[]",
+                "name": "requesterNftAddresses",
+                "type": "address[]"
+              },
+              {
+                "internalType": "uint256[]",
+                "name": "requesterNftIDs",
+                "type": "uint256[]"
+              },
+              {
+                "internalType": "address[]",
+                "name": "recipientNftAddresses",
+                "type": "address[]"
+              },
+              {
+                "internalType": "uint256[]",
+                "name": "recipientNftIDs",
+                "type": "uint256[]"
+              },
+              {
+                "internalType": "uint256",
+                "name": "requesterIndex",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "recipientIndex",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "timestamp",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "active",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "result",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "requesterReady",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "recipientReady",
+                "type": "bool"
+              }
+            ],
+            "internalType": "struct NFTTrade.TradeInfo[]",
+            "name": "",
+            "type": "tuple[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "tradeOffers",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "requesterAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "recipientAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "requesterIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "recipientIndex",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "result",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "requesterReady",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "recipientReady",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ]
