@@ -10,7 +10,6 @@ contract NFTTrade{
     //mapping (address => uint) tradeOffersLength;
 
     mapping(address => TradeInfo[]) public tradeOffers;
-    
 
     struct TradeInfo {
         address requesterAddress;

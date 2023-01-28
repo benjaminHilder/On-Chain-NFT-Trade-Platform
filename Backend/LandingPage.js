@@ -5,14 +5,12 @@ export let recipientAddress
 
 const tradeContractAddress = "0x2Fd136348FeF6BFD12CF5803e914dfeF665A9fA8";
 
-
 let nftBoxes = document.querySelector(".UserNFTs");
 
 let RecipientTradeBox = document.getElementById("RecipientTradeBox")
 
 let UserSelected = new Set()
 let RecipientSelected = new Set()
-
 
 class nftInfo {
   constructor(contractAddress, ID, ImgURL) {

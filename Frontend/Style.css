@@ -58,8 +58,64 @@ div.TradeBox {
     height: 80vh;
 }
 
+div.Offers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+  
+    border-style: solid;
+    border-color: black;
+    border-radius: 25px;
+    border: 1px solid #2c3e50;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+    padding: 2vh;
+    width: 150vh; 
+    height: 80vh;
+}
+
+div.OfferBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  
+    border-style: solid;
+    border-color: black;
+    border-radius: 25px;
+    border: 1px solid #2c3e50;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+    padding: 2vh;
+    width: 25vh; 
+    height: 25vh;
+}
+
+div.Offers > h1 {
+    position: absolute;
+    top:4%
+
+}
+
+div.offerInnerDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+div.OfferBox {
+    word-wrap: break-word;
+    overflow: visible;
+}
+
 div.TradeBox > h1 {
-    background-color: red;
     position: static;
     transform: translate(0, -35vh);
     font-size: 4vh;
