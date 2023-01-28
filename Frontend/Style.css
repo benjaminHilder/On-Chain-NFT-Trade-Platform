@@ -160,9 +160,18 @@ div.UserNFTs {
     display: flex;
     flex-direction: row;
 }
+.YouBoxTitle {
+    display: flex;
+    flex-direction: row;
+}
 
 .nftBox img{
     width: 25%;
+   
+}
+
+.nftBox {
+    cursor: pointer
 }
 
 
