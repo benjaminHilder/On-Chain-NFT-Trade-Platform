@@ -169,6 +169,59 @@ div.UserNFTs {
     -ms-overflow-style: none;
 }
 
+div.offerInfoRequesterDiv {
+    display:flex;
+    flex-wrap: wrap;
+    order: 4;
+
+    justify-content: center;
+    margin-left: 1vh;
+    margin-right: 1vh;
+    margin-top: 1vh;
+    
+
+    padding-top: 1vh;
+
+    border-style: solid;
+    border-color: black;
+    border-radius: 25px;
+    border: 1px solid #2c3e50;
+
+    height: 60vh;
+    width: 72vh;
+
+}
+
+div.offerInfoRecipientDiv {
+    display:flex;
+    flex-wrap: wrap;
+    order: 4;
+
+    justify-content: center;
+    margin-left: 1vh;
+    margin-right: 1vh;
+    margin-top: 1vh;
+
+    padding-top: 1vh;
+
+    border-style: solid;
+    border-color: black;
+    border-radius: 25px;
+    border: 1px solid #2c3e50;
+
+    height: 60vh;
+    width: 72vh;
+
+}
+
+div.mainTradeAreaDiv {
+    display: flex;
+    flex-direction: row;
+    gap: 1vh;
+
+    justify-content: center;
+    align-items: center;
+}
 
 .nftBox {
     position: relative;

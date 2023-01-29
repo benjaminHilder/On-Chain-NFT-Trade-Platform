@@ -9,13 +9,19 @@ window.onload = async function() {
     document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
 }
 
-async function goToTradeInfoPage(requesterAddress, recipientAddress, requesterNftAddresses, requesterNftIDs, recipientNftAddresses, recipentNftIds, requesterIndex, recipientIndex, timestamp, active, result, requesterReady, recipientReady) {
+async function goToTradeInfoPage(requesterAddress, recipientAddress, requesterNftAddresses, requesterNftIDs, recipientNftAddresses, recipentNftIds, requesterIndex, recipientIndex, timestamp, active, result, requesterReady, recipientReady, tradeIndex) {
+  //console.log(`adasda ${requesterAddress}`)
   await sessionStorage.setItem("requesterAddress", requesterAddress);
   await sessionStorage.setItem("recipientAddress", recipientAddress);
-  await sessionStorage.setItem("requesterNftAddresses", requesterNftAddresses);
-  await sessionStorage.setItem("requesterNftIDs", requesterNftIDs);
-  await sessionStorage.setItem("recipientNftAddresses", recipientNftAddresses);
-  await sessionStorage.setItem("recipentNftIds", recipentNftIds);
+  //stringify so we can pass it to another page and index the array
+  await sessionStorage.setItem("requesterNftAddresses", JSON.stringify(requesterNftAddresses));
+
+  //let requesterNftIdsArray = requesterNftIDs.split(",").map(Number);
+  //console.log(requesterNftIDs)
+  await sessionStorage.setItem("requesterNftIDs", JSON.stringify(requesterNftIDs));
+  await sessionStorage.setItem("recipientNftAddresses", JSON.stringify(recipientNftAddresses));
+  console.log
+  await sessionStorage.setItem("recipentNftIds", JSON.stringify(recipentNftIds));
   await sessionStorage.setItem("requesterIndex", requesterIndex);
   await sessionStorage.setItem("recipientIndex", recipientIndex);
   await sessionStorage.setItem("timestamp", timestamp);
@@ -23,7 +29,7 @@ async function goToTradeInfoPage(requesterAddress, recipientAddress, requesterNf
   await sessionStorage.setItem("result", result);
   await sessionStorage.setItem("requesterReady", requesterReady);
   await sessionStorage.setItem("recipientReady", recipientReady);
-
+  await sessionStorage.setItem("tradeIndex", tradeIndex)
 
   window.location = "../Frontend/Offer.html"
 }
@@ -90,13 +96,26 @@ async function getAllOffers() {
             } else if (j == 1) {
                 recipients.push(allOffers[i][j])
             } else if (j == 2) {
-                requesterNftAddresses.push(allOffers[i][j])
+                requesterNftAddresses = allOffers[i][j]
             } else if (j == 3) {
-                requesterNftIDs.push(allOffers[i][j])
+              let normalIntArray = []
+              for(let l = 0; l < allOffers[i][j].length; l++) {
+                let bigInt = BigInt(allOffers[i][j][l])
+                normalIntArray.push(parseInt(bigInt.toString()))
+              }
+              requesterNftIDs = normalIntArray
             } else if (j == 4) {
-                recipientNftAddresses.push(allOffers[i][j])
+                recipientNftAddresses = allOffers[i][j]
+                console.log(recipientNftAddresses)
             } else if (j == 5) {
-                recipientNftIDs.push(allOffers[i][j])
+              let normalIntArray = []
+              for(let l = 0; l < allOffers[i][j].length; l++) {
+                let bigInt = BigInt(allOffers[i][j][l])
+                normalIntArray.push(parseInt(bigInt.toString()))
+                
+              }
+              recipientNftIDs = normalIntArray
+
             } else if (j == 6) {
                 requesterIndex.push(allOffers[i][j])
             } else if (j == 7) {
@@ -130,7 +149,7 @@ async function getAllOffers() {
 
         let button = document.createElement("button") 
         button.addEventListener("click", function () {
-          goToTradeInfoPage(allOffers[i][0], allOffers[i][1], allOffers[i][2], allOffers[i][3], allOffers[i][4], allOffers[i][5], allOffers[i][6], allOffers[i][7], allOffers[i][8], allOffers[i][9], allOffers[i][10], allOffers[i][0], allOffers[i][11], allOffers[i][12])})
+          goToTradeInfoPage(requesters, recipients, requesterNftAddresses, requesterNftIDs, recipientNftAddresses, recipientNftIDs, requesterIndex, recipientIndex, timestamp, active, result, requesterReady, recipientReady, i)})
         button.textContent = "View Offer"
 
         newDiv.appendChild(header)

@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "hardhat": "^2.12.6"
+  },
+  "dependencies": {
+    "ipfs": "^0.66.0"
   }
 }

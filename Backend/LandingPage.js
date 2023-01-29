@@ -12,6 +12,7 @@ let RecipientTradeBox = document.getElementById("RecipientTradeBox")
 let UserSelected = new Set()
 let RecipientSelected = new Set()
 
+
 class nftInfo {
   constructor(contractAddress, ID, ImgURL) {
   this.contractAddress = contractAddress
@@ -219,7 +220,7 @@ async function createNFTBoxes() {
     }
   
 
-    function putNFTsInTradeArea(address, set, tradeBoxArea) {
+    function putNFTsInTradeArea(address, set, tradeBoxArea, imageArray) {
       axios.get(`https://testnets-api.opensea.io/api/v1/assets?owner=${address}&limit=50`)
       .then(function (response) {
  
@@ -242,7 +243,6 @@ async function createNFTBoxes() {
               });
 
             nftBox.style.backgroundImage = 'url(' + nftImageUrl + ')';
-        
             //nftBoxes.appendChild(nftBox);
             tradeBoxArea.appendChild(nftBox);
 
