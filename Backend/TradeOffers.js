@@ -7,6 +7,7 @@ const tradeContractAddress = "0x2Fd136348FeF6BFD12CF5803e914dfeF665A9fA8";
 
 window.onload = async function() {
     document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
+    document.getElementById("tradeNavButton").addEventListener("click", function() {window.location = "../Frontend/LandingPage.html"});
 }
 
 async function goToTradeInfoPage(requesterAddress, recipientAddress, requesterNftAddresses, requesterNftIDs, recipientNftAddresses, recipentNftIds, requesterIndex, recipientIndex, timestamp, active, result, requesterReady, recipientReady, tradeIndex) {

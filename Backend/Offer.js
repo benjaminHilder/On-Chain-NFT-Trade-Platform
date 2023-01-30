@@ -67,6 +67,7 @@ async function loadOfferInfo() {
     //});
     let YouTitle = document.createElement("h1")
     let OtherTraderTitle = document.createElement("h1")
+    let OffersTitle = document.createElement("h1")
 
     if (signerAddress == requesterAddress) {
         if (requesterReady == true) {
@@ -108,6 +109,7 @@ async function loadOfferInfo() {
 
     OtherTraderTitle.innerHTML = "Other Trader"
     OtherTraderTitle.style.left = "103vh"
+    
 
     mainClass.appendChild(YouTitle)
     mainClass.appendChild(OtherTraderTitle)

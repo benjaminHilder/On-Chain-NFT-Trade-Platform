@@ -24,6 +24,7 @@ class nftInfo {
 
 window.onload = async function() {
     document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
+    document.getElementById("offerNavButton").addEventListener("click", function() {window.location = "../Frontend/TradeOffers.html"});
 }
 
 async function createTradeRequest() {

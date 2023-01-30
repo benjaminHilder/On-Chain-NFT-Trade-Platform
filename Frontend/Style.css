@@ -80,6 +80,21 @@ div.Offers {
     height: 80vh;
 }
 
+#offerNavButton {
+    position: absolute;
+    right: 83vh;
+}
+
+#tradeNavButton {
+    position: absolute;
+    right: 83vh;
+}
+
+div.OffersTitles {
+    display: flex;
+    flex-direction: row;
+}
+
 div.OfferBox {
     display: flex;
     align-items: center;
