@@ -2,7 +2,7 @@ pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract NFTTrade{
+contract NFTTrade {
 
     //       reciever address   => index         => trade offer information
     //mapping (address => mapping(uint => TradeInfo)) tradeOffers;

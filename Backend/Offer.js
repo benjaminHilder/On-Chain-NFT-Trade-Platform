@@ -13,6 +13,24 @@ const Vote = {
 }
 
 window.onload = async function() {
+
+  window.ethereum.on('accountsChanged', function (accounts) {
+    // Check if accounts have changed
+  });
+
+  window.ethereum.send({ method: 'eth_requestAccounts' }, function (error, accounts) {
+    if (error) {
+      console.error(error);
+    } else {
+      // Check if the user has granted access to their wallet
+      if (accounts.length === 0) {
+        console.log('Please connect your wallet.');
+      } else {
+        console.log('Wallet is already connected.');
+        connectMetamask()
+      }
+    }
+  });
     await document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
     await setupBackButton();
     await loadOfferInfo();
@@ -117,17 +135,36 @@ async function loadOfferInfo() {
 
     buttonDiv.style.paddingTop = "2vh"
 
-    let buttonAccept = document.createElement("button")
-    buttonAccept.addEventListener("click", function() {
+    if (requesterReady == true && recipientReady == true) {
+      let buttonApproveContract = document.createElement("button")
+      buttonApproveContract.addEventListener("click", function () {
+
+      })
+      buttonApproveContract.innerHTML = "Approve Contract"
+
+      let buttContract = document.createElement("button")
+      buttonApproveContract.addEventListener("click", function () {
+
+      })
+      buttonApproveContract.innerHTML = "Approve Contract"
+    } else {
+      let buttonAccept = document.createElement("button")
+      buttonAccept.addEventListener("click", function() {
         voteOnTrade(Vote.Accept)
     })
-    buttonAccept.innerHTML = "Accept"
+      buttonAccept.innerHTML = "Accept"
 
     let buttonDecline = document.createElement("button")
-    buttonDecline.addEventListener("click", function() {
+      buttonDecline.addEventListener("click", function() {
         voteOnTrade(Vote.Decline)
     })
-    buttonDecline.innerHTML = "Decline"
+      buttonDecline.innerHTML = "Decline"
+
+      buttonDiv.appendChild(buttonAccept);
+      buttonDiv.appendChild(buttonDecline);
+    }
+
+    
 
     for(let i = 0; i < requesterNftAddresses.length; i++) {
         await displayNFT(requesterNftAddresses[i], requesterNftIDs[i], requesterDiv)
@@ -142,8 +179,10 @@ async function loadOfferInfo() {
 
     mainClass.appendChild(mainTradeAreaDiv)
 
-    buttonDiv.appendChild(buttonAccept);
-    buttonDiv.appendChild(buttonDecline);
+ 
+
+
+
     
     mainClass.appendChild(buttonDiv)
 

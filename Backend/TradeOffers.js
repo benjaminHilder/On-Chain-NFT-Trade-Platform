@@ -6,22 +6,49 @@ export let recipientAddress
 const tradeContractAddress = "0x2Fd136348FeF6BFD12CF5803e914dfeF665A9fA8";
 
 window.onload = async function() {
+  window.ethereum.on('accountsChanged', function (accounts) {
+    // Check if accounts have changed
+  });
+
+  window.ethereum.send({ method: 'eth_requestAccounts' }, function (error, accounts) {
+    if (error) {
+      console.error(error);
+    } else {
+      // Check if the user has granted access to their wallet
+      if (accounts.length === 0) {
+        console.log('Please connect your wallet.');
+      } else {
+        console.log('Wallet is already connected.');
+        connectMetamask()
+      }
+    }
+  });
     document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
     document.getElementById("tradeNavButton").addEventListener("click", function() {window.location = "../Frontend/LandingPage.html"});
 }
 
-async function goToTradeInfoPage(requesterAddress, recipientAddress, requesterNftAddresses, requesterNftIDs, recipientNftAddresses, recipentNftIds, requesterIndex, recipientIndex, timestamp, active, result, requesterReady, recipientReady, tradeIndex) {
+async function goToTradeInfoPage(requesterAddress, 
+                                 recipientAddress, 
+                                 requesterNftAddresses, 
+                                 requesterNftIDs, 
+                                 recipientNftAddresses, 
+                                 recipentNftIds, 
+                                 requesterIndex, 
+                                 recipientIndex, 
+                                 timestamp, 
+                                 active, 
+                                 result, 
+                                 requesterReady, 
+                                 recipientReady, 
+                                 tradeIndex) {
   //console.log(`adasda ${requesterAddress}`)
   await sessionStorage.setItem("requesterAddress", requesterAddress);
   await sessionStorage.setItem("recipientAddress", recipientAddress);
   //stringify so we can pass it to another page and index the array
   await sessionStorage.setItem("requesterNftAddresses", JSON.stringify(requesterNftAddresses));
 
-  //let requesterNftIdsArray = requesterNftIDs.split(",").map(Number);
-  //console.log(requesterNftIDs)
   await sessionStorage.setItem("requesterNftIDs", JSON.stringify(requesterNftIDs));
   await sessionStorage.setItem("recipientNftAddresses", JSON.stringify(recipientNftAddresses));
-  console.log
   await sessionStorage.setItem("recipentNftIds", JSON.stringify(recipentNftIds));
   await sessionStorage.setItem("requesterIndex", requesterIndex);
   await sessionStorage.setItem("recipientIndex", recipientIndex);
@@ -64,130 +91,154 @@ async function getAllOffers() {
     //get from smart contract offers
     const contract = await new ethers.Contract(tradeContractAddress, tradeABI, provider);
     const allOffers = await contract.getAllOffers(ethers.utils.getAddress(await signer.getAddress()))
-    //info from offers
-    let requesters = []
-    let recipients = []
-    
-    let requesterNftAddresses = []
-    let requesterNftIDs = []
-
-    let recipientNftAddresses = []
-    let recipientNftIDs = []
-
-    let requesterIndex = []
-    let recipientIndex = []
-
-    let timestamp = []
-
-    let active = []
-    let result = []
-    let requesterReady = []
-    let recipientReady = []
-    
-    let arrays = [requesters, recipients, requesterNftAddresses, requesterNftIDs, recipientNftAddresses, recipientNftIDs, requesterIndex, recipientIndex, timestamp, active, result, requesterReady, recipientReady];
-    //sort info into correct arrays
 
     let offerDiv = document.createElement("div");
-    offerDiv.className = "offerInnerDiv"
+    offerDiv.className = "offerInnerDiv"  
 
     for (let i = 0; i < allOffers.length; i++) {
-        for (let j = 0; j < allOffers[i].length; j++) {
-            if (j == 0) {
-                requesters.push(allOffers[i][j])
-            } else if (j == 1) {
-                recipients.push(allOffers[i][j])
-            } else if (j == 2) {
-                requesterNftAddresses = allOffers[i][j]
-            } else if (j == 3) {
-              let normalIntArray = []
-              for(let l = 0; l < allOffers[i][j].length; l++) {
-                let bigInt = BigInt(allOffers[i][j][l])
-                normalIntArray.push(parseInt(bigInt.toString()))
-              }
-              requesterNftIDs = normalIntArray
-            } else if (j == 4) {
-                recipientNftAddresses = allOffers[i][j]
-                console.log(recipientNftAddresses)
-            } else if (j == 5) {
-              let normalIntArray = []
-              for(let l = 0; l < allOffers[i][j].length; l++) {
-                let bigInt = BigInt(allOffers[i][j][l])
-                normalIntArray.push(parseInt(bigInt.toString()))
-                
-              }
-              recipientNftIDs = normalIntArray
+      //info from offers
+      //sort info into correct arrays
+      let requesters = []
+      let recipients = []
+      
+      let requesterNftAddresses = []
+      let requesterNftIDs = []
 
-            } else if (j == 6) {
-                requesterIndex.push(allOffers[i][j])
-            } else if (j == 7) {
-                recipientIndex.push(allOffers[i][j])
-            } else if (j == 8) {
-                timestamp.push(allOffers[i][j])
-            } else if (j == 9) {
-                active.push(allOffers[i][j])
-            } else if (j == 10) {
-                result.push(allOffers[i][j])
-            } else if (j == 11) {
-                requesterReady.push(allOffers[i][j])
-            } else if (j == 12) {
-                recipientReady.push(allOffers[i][j])
-            }
-        }
+      let recipientNftAddresses = []
+      let recipientNftIDs = []
 
-        let newDiv = document.createElement("div")
-        newDiv.className = "OfferBox"
+      let requesterIndex = []
+      let recipientIndex = []
 
-        let header = document.createElement("p")
-        header.innerHTML = `Trade with address:`
-        
-        let addressValue = document.createElement("p")
+      let timestamp = []
 
-        if (signerAddress == requesters[i]){
-            addressValue.innerHTML = `${recipients[i]}`
-        } else {
-            addressValue.innerHTML = `${requesters[i]}`
-        }
+      let active = []
+      let result = []
+      let requesterReady = []
+      let recipientReady = []
 
-        let button = document.createElement("button") 
-        button.addEventListener("click", function () {
-          goToTradeInfoPage(requesters, recipients, requesterNftAddresses, requesterNftIDs, recipientNftAddresses, recipientNftIDs, requesterIndex, recipientIndex, timestamp, active, result, requesterReady, recipientReady, i)})
-        button.textContent = "View Offer"
-
-        newDiv.appendChild(header)
-        newDiv.appendChild(addressValue)
-        newDiv.appendChild(button)
-        offerDiv.appendChild(newDiv)
-    }
-
-    arrays.forEach(array => {
-        //let p = document.createElement("p");
-        //p.innerHTML = array;
-        //offerDiv.appendChild(p);
+      for (let j = 0; j < allOffers[i].length; j++) {
+        switch(j) {
+          case 0:
+            requesters.push(allOffers[i][j])
+            break
           
+          case 1:
+            recipients.push(allOffers[i][j])
+            break
+          
+          case 2:
+            requesterNftAddresses = allOffers[i][j]
+            break
+
+          case 3:
+            let normalIntArray1 = []
+          
+            for(let l = 0; l < allOffers[i][j].length; l++) {
+              let bigInt = BigInt(allOffers[i][j][l])
+              normalIntArray1.push(parseInt(bigInt.toString()))
+            }
   
-      });
-    
-    
-    //arrays.forEach(array => {
-    //  //let p = document.createElement("p");
-    //  //p.innerHTML = array;
-    //  //offerDiv.appendChild(p);
-    //    let newDiv = document.createElement("div")
-    //    newDiv.className = "OfferBox"
-//
-    //    offerDiv.appendChild(newDiv)
-//
-    //});
-    
-    
-    let offersInner = document.querySelector(".OffersInner");
-    offersInner.appendChild(offerDiv)
-    //format info
+            requesterNftIDs = normalIntArray1
+            break
 
-    //setup box to be put in frontend
-    //popular box with info
+          case 4:
+            recipientNftAddresses = allOffers[i][j]
+            console.log(recipientNftAddresses)
+            break
 
-    //put box in screen
+          case 5:
+            let normalIntArray2 = []
+          
+            for(let l = 0; l < allOffers[i][j].length; l++) {
+              let bigInt = BigInt(allOffers[i][j][l])
+              normalIntArray2.push(parseInt(bigInt.toString()))
+
+            }
+            recipientNftIDs = normalIntArray2
+            break
+
+          case 6:
+            requesterIndex.push(allOffers[i][j])
+            break
+
+          case 7:
+            recipientIndex.push(allOffers[i][j])
+            break
+
+          case 8:
+            timestamp.push(allOffers[i][j])
+            break
+
+          case 9:
+            active.push(allOffers[i][j])
+            break
+
+          case 10:
+            result.push(allOffers[i][j])
+            break
+
+          case 11:
+            requesterReady.push(allOffers[i][j])
+            break
+            
+          case 12:
+            recipientReady.push(allOffers[i][j])
+            break
+        }
+      }
+      let button = document.createElement("button") 
+
+      button.addEventListener("click", function () {
+        goToTradeInfoPage(requesters, 
+                          recipients, 
+                          requesterNftAddresses, 
+                          requesterNftIDs, 
+                          recipientNftAddresses, 
+                          recipientNftIDs, 
+                          requesterIndex, 
+                          recipientIndex, 
+                          timestamp, 
+                          active, 
+                          result, 
+                          requesterReady, 
+                          recipientReady, 
+                          i)
+          })
+
+        console.log(`requester ids: ${requesterNftIDs}`)
+        console.log(`recipient ids: ${recipientNftIDs}`)
+        button.textContent = "View Offer"
+      
+
+      let newDiv = document.createElement("div")
+      let header = document.createElement("p")
+      let addressValue = document.createElement("p")
+
+      newDiv.className = "OfferBox"
+      header.innerHTML = `Trade with address:`
+      
+      console.log()
+      if (signerAddress == requesters){
+          addressValue.innerHTML = `${recipients}`
+      } else {
+          addressValue.innerHTML = `${requesters}`
+      }
+
+      newDiv.appendChild(header)
+      newDiv.appendChild(addressValue)
+      newDiv.appendChild(button)
+      offerDiv.appendChild(newDiv)
+
+      let offersInner = document.querySelector(".OffersInner");
+      offersInner.appendChild(offerDiv)
+      //format info
+
+      //setup box to be put in frontend
+      //popular box with info
+
+      //put box in screen
+    }
 }
 
 const tradeABI = [
@@ -427,3 +478,4 @@ const tradeABI = [
       "type": "function"
     }
   ]
+  

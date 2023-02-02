@@ -23,6 +23,24 @@ class nftInfo {
 }
 
 window.onload = async function() {
+
+  window.ethereum.on('accountsChanged', function (accounts) {
+    // Check if accounts have changed
+  });
+
+  window.ethereum.send({ method: 'eth_requestAccounts' }, function (error, accounts) {
+    if (error) {
+      console.error(error);
+    } else {
+      // Check if the user has granted access to their wallet
+      if (accounts.length === 0) {
+        console.log('Please connect your wallet.');
+      } else {
+        console.log('Wallet is already connected.');
+        connectMetamask()
+      }
+    }
+  });
     document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
     document.getElementById("offerNavButton").addEventListener("click", function() {window.location = "../Frontend/TradeOffers.html"});
 }

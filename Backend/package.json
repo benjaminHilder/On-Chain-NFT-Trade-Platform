@@ -13,6 +13,10 @@
     "hardhat": "^2.12.6"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.1",
+    "@openzeppelin/contracts": "^4.8.1",
+    "@openzeppelin/test-helpers": "^0.5.16",
+    "hardhat-shorthand": "^1.0.0",
     "ipfs": "^0.66.0"
   }
 }
