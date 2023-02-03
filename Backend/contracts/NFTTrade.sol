@@ -11,7 +11,6 @@ contract NFTTrade{
 
     mapping(address => TradeInfo[]) public tradeOffers;
     
-
     struct TradeInfo {
         address requesterAddress;
         address recipientAddress;
@@ -29,7 +28,7 @@ contract NFTTrade{
         uint timestamp;
 
         bool active;
-        bool result;
+        bool offerResult;
         bool requesterReady;
         bool recipientReady;
     }
@@ -61,9 +60,9 @@ contract NFTTrade{
         newTrade.recipientIndex = tradeOffers[_recipientAddress].length;
 
         newTrade.active = true;
-        newTrade.result = false;
+        newTrade.offerResult = false;
 
-        newTrade.requesterReady = true;
+        newTrade.requesterReady = false;
         newTrade.recipientReady = false;
 
         tradeOffers[msg.sender].push(newTrade);
@@ -72,36 +71,30 @@ contract NFTTrade{
 
     function giveContractAccessToNFTs(uint _index) public {
         TradeInfo memory trade = tradeOffers[msg.sender][_index];
-        require(trade.active == false, "trade offer not decided yet");
-        require(trade.result == true, "trade offer not accepted yet");
+        require(trade.active == true, "trade offer not decided yet");
+        require(trade.offerResult == true, "trade offer not accepted yet");
 
-        address[] memory nftAddress;
-        uint[] memory nftIDs;
-
-        if (trade.requesterAddress == msg.sender) {
-            nftAddress = trade.requesterNftAddresses;
-            nftIDs = trade.requesterNftIDs;
-            
-        } else {
-            nftAddress = trade.recipientNftAddresses;
-            nftIDs = trade.recipientNftIDs;
-        }
-
-        for (uint i = 0; i < nftAddress.length; i++) {
-                //ERC721 NFT = ERC721(nftAddress[i]);
-                //(bool success, bytes memory data) = NFT.delegatecall()
-                //nftAddress[i].delegateCall(abi.encodeWithSelector("approve(address,uint256)", address(this), nftIDs[i]));
-
-                bytes memory data = abi.encodeWithSignature("approve(address,uint256)", address(this), nftIDs[i]);
-                address owner = msg.sender;
-
-                msg.sender.delegatecall(data);
+        if (msg.sender == trade.requesterAddress) {
+            for (uint i = 0; i < trade.requesterNftAddresses.length; i++) {
+                trade.requesterNftAddresses[i].delegatecall(
+                        abi.encodeWithSignature("approve(address,uint256)", address(this), trade.requesterNftIDs[i])
+                        );
             }
+
+        } else if (msg.sender == trade.recipientAddress) {
+            for (uint i = 0; i < trade.recipientNftAddresses.length; i++) {
+                trade.recipientNftAddresses[i].delegatecall(
+                        abi.encodeWithSignature("approve(address,uint256)", address(this), trade.recipientNftIDs[i])
+                        );
+            }
+        }
 
         if (trade.requesterAddress == msg.sender) {
             tradeOffers[msg.sender][_index].requesterReady = true;
+            tradeOffers[trade.recipientAddress][trade.recipientIndex].requesterReady = true;
         } else {
             tradeOffers[msg.sender][_index].recipientReady = true;
+            tradeOffers[trade.requesterAddress][trade.requesterIndex].recipientReady = true;
         }
     }
 
@@ -112,12 +105,12 @@ contract NFTTrade{
 
         for (uint i = 0; i < trade.requesterNftAddresses.length; i++) {
             ERC721 NFT = ERC721(trade.requesterNftAddresses[i]);
-            NFT.transferFrom(trade.recipientAddress, trade.requesterAddress, trade.requesterNftIDs[i]);
+            NFT.transferFrom(trade.requesterAddress, trade.recipientAddress, trade.requesterNftIDs[i]);
         }
 
         for (uint i = 0; i < trade.recipientNftAddresses.length; i++) {
             ERC721 NFT = ERC721(trade.recipientNftAddresses[i]);
-            NFT.transferFrom(trade.requesterAddress, trade.recipientAddress, trade.requesterNftIDs[i]);
+            NFT.transferFrom(trade.recipientAddress, trade.requesterAddress, trade.requesterNftIDs[i]);
         }
     }
     
@@ -127,8 +120,8 @@ contract NFTTrade{
         //requester is automatically voted to accept trade so only recipient needs to vote
         require (msg.sender == tradeInfo.recipientAddress, "Only recipient of this offer can accept or decline");
      
-        tradeOffers[msg.sender][_tradeOfferIndex].recipientReady = true;
-        tradeOffers[tradeInfo.requesterAddress][tradeInfo.requesterIndex].recipientReady = true;
+        tradeOffers[msg.sender][_tradeOfferIndex].offerResult = true;
+        tradeOffers[tradeInfo.requesterAddress][tradeInfo.requesterIndex].offerResult = true;
         
     }
 

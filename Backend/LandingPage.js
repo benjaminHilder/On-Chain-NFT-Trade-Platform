@@ -3,7 +3,7 @@ export let signer
 export let signerAddress
 export let recipientAddress
 
-const tradeContractAddress = "0xD444cd9c34A1EEE8D7B559EBa0D4C5E72CCaD179";
+const tradeContractAddress = "0xE0976aC3cD60c77F13f6850C18d24581f0a1da8b";
 
 let nftBoxes = document.querySelector(".UserNFTs");
 

@@ -46,10 +46,6 @@ describe("Functions of the NFTTrade solidity smart contract", async function() {
         }
     })
 
-    it("Should allow allow an account to make a trade request with the NFTs they have and the NFTs the other account has", async function() {
-
-    })
-
     it("", async function() {
         let requesterNftAddresses = [NftContract.address, NftContract.address, NftContract.address]
         let requesterNftIDs = [0, 1, 2]
@@ -73,6 +69,26 @@ describe("Functions of the NFTTrade solidity smart contract", async function() {
         await NftTradeContract.connect(acc1).createTradeRequest(acc2.address, recipientNftAddresses, recipientNftIDs, requesterNftAddresses, requesterNftIDs)
         result = await NftTradeContract.getAllOffers(acc1.address)
         console.log(result[1])
+    })
+
+    it.only("complete a full trade run", async function() {
+        let requesterNftAddresses = [NftContract.address, NftContract.address, NftContract.address]
+        let requesterNftIDs = [0, 1, 2]
+
+        let recipientNftAddresses = [NftContract.address, NftContract.address, NftContract.address]
+        let recipientNftIDs = [3, 4, 5]
+
+        await NftTradeContract.connect(acc1).createTradeRequest(acc2.address, recipientNftAddresses, recipientNftIDs, requesterNftAddresses, requesterNftIDs)
+        
+        await NftTradeContract.connect(acc2).acceptTrade(0);
+
+        await NftTradeContract.connect(acc1).giveContractAccessToNFTs(0)
+        await NftTradeContract.connect(acc2).giveContractAccessToNFTs(0)
+
+        console.log(`address of trade contract ${await NftTradeContract.address}`)
+        console.log(`approved addresses: ${await NftContract.connect(acc2).getApproved(0)}`)
+
+        //await NftTradeContract.connect(acc1).excuteTrade(0)
     })
     
 })

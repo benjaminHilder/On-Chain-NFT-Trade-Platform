@@ -3,7 +3,7 @@ export let signer
 export let signerAddress
 export let recipientAddress
 
-const tradeContractAddress = "0xD444cd9c34A1EEE8D7B559EBa0D4C5E72CCaD179";
+const tradeContractAddress = "0xE0976aC3cD60c77F13f6850C18d24581f0a1da8b";
 
 window.onload = async function() {
   window.ethereum.on('accountsChanged', function (accounts) {
@@ -43,13 +43,14 @@ async function goToTradeInfoPage(requesterAddress,
                                  tradeIndex) {
   //console.log(`adasda ${requesterAddress}`)
   await sessionStorage.setItem("requesterAddress", requesterAddress);
+
   await sessionStorage.setItem("recipientAddress", recipientAddress);
   //stringify so we can pass it to another page and index the array
   await sessionStorage.setItem("requesterNftAddresses", JSON.stringify(requesterNftAddresses));
 
   await sessionStorage.setItem("requesterNftIDs", JSON.stringify(requesterNftIDs));
   await sessionStorage.setItem("recipientNftAddresses", JSON.stringify(recipientNftAddresses));
-  await sessionStorage.setItem("recipentNftIds", JSON.stringify(recipentNftIds));
+  await sessionStorage.setItem("recipentNtIds", JSON.stringify(recipentNftIds));
   await sessionStorage.setItem("requesterIndex", requesterIndex);
   await sessionStorage.setItem("recipientIndex", recipientIndex);
   await sessionStorage.setItem("timestamp", timestamp);
@@ -128,7 +129,7 @@ async function getAllOffers() {
             break
           
           case 2:
-            requesterNftAddresses = allOffers[i][j]
+            recipientNftAddresses = allOffers[i][j]
             break
 
           case 3:
@@ -138,12 +139,12 @@ async function getAllOffers() {
               let bigInt = BigInt(allOffers[i][j][l])
               normalIntArray1.push(parseInt(bigInt.toString()))
             }
-  
-            requesterNftIDs = normalIntArray1
+            
+            recipentNftIds = normalIntArray1
             break
 
           case 4:
-            recipientNftAddresses = allOffers[i][j]
+            requesterNftAddresses = allOffers[i][j]
             console.log(recipientNftAddresses)
             break
 
@@ -155,7 +156,8 @@ async function getAllOffers() {
               normalIntArray2.push(parseInt(bigInt.toString()))
 
             }
-            recipientNftIDs = normalIntArray2
+            
+            requesterNftIDs = normalIntArray2
             break
 
           case 6:

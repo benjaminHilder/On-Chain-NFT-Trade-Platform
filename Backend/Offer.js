@@ -3,9 +3,10 @@ export let signer
 export let signerAddress
 export let recipientAddress
 
-const tradeContractAddress = "0xD444cd9c34A1EEE8D7B559EBa0D4C5E72CCaD179";
+const tradeContractAddress = "0xE0976aC3cD60c77F13f6850C18d24581f0a1da8b";
 let mainClass = document.querySelector(".Offers");
 let innerClass = document.querySelector(".OffersInner")
+
 
 const Vote = {
     Accept: 0,
@@ -61,6 +62,7 @@ async function loadOfferInfo() {
     let result = await sessionStorage.getItem("result")
     let requesterReady = await sessionStorage.getItem("requesterReady")
     let recipientReady = await sessionStorage.getItem("recipientReady")
+    let tradeIndex = await sessionStorage.getItem("tradeIndex")
 
     if (requesterReady == "true") {
       requesterReady = true;
@@ -104,9 +106,13 @@ async function loadOfferInfo() {
       YouTitle.style.left = "35vh"
 
       OtherTraderTitle.innerHTML = "Other Trader"
-      OtherTraderTitle.style.left = "98vh"  
+      OtherTraderTitle.style.left = "103vh"  
+
+      let OfferTitle = await document.createElement("h1")
+      OfferTitle.innerHTML = "Offer"
 
       mainClass.appendChild(YouTitle)
+      mainClass.appendChild(OfferTitle)
       mainClass.appendChild(OtherTraderTitle)
       let buttonDiv = document.createElement("div")
 
@@ -140,7 +146,7 @@ async function loadOfferInfo() {
       voteOnTrade(Vote.Accept)
     })
       buttonAccept.innerHTML = "Accept"
-    let buttonDecline = document.createElement("button")
+      let buttonDecline = document.createElement("button")
       buttonDecline.addEventListener("click", function() {
       voteOnTrade(Vote.Decline)
     })
@@ -150,62 +156,96 @@ async function loadOfferInfo() {
 
     } else if (result == false && signerAddress == requesterAddress && active == true) {
       let waitingP = document.createElement("p")
-      provider.innerHTML == "Waiting for other trader to decide..."
+      waitingP.innerHTML = "Waiting for other trader to decide..."
+      waitingP.style.fontSize = "3vh"
       mainClass.appendChild(waitingP)
     
     } else if (result == true && active == true) {
-      // voting
+      if (signerAddress == requesterAddress) {
+        if (requesterReady == true) {
+          YouTitle.innerHTML = "You ✅"
+          YouTitle.style.left = "25vh"
+
+        } else if (requesterReady == false) {
+
+          YouTitle.innerHTML = "You ❌"
+          YouTitle.style.left = "35vh"
+        }
+
+        if (recipientReady == true) {
+          
+          OtherTraderTitle.innerHTML = "Other Trader ✅"
+          OtherTraderTitle.style.left = "98vh"
+
+        } else if (recipientReady == false) {
+          
+          OtherTraderTitle.innerHTML = "Other Trader ❌"
+          OtherTraderTitle.style.left = "103vh"
+
+        }
+
+      } else if (signerAddress == recipientAddress){
+        if (recipientReady == true) {
+          YouTitle.innerHTML = "You ✅"
+          YouTitle.style.left = "25vh"
+
+        } else if (recipientReady == false) {
+          YouTitle.innerHTML = "You ❌"
+          YouTitle.style.left = "35vh"
+
+        }
+
+        if (requesterReady == true) {
+          OtherTraderTitle.innerHTML = "Other Trader ✅"
+          OtherTraderTitle.style.left = "98vh"
+
+        } else if (requesterReady == false) {
+          OtherTraderTitle.innerHTML = "Other Trader ❌"
+          OtherTraderTitle.style.left = "98vh"
+        }
+      }
+
+      let approveTitle = document.createElement("h1");
+      approveTitle.innerHTML = "Approved Contract"
+
+      mainClass.appendChild(YouTitle)
+      mainClass.appendChild(approveTitle)
+      mainClass.appendChild(OtherTraderTitle)
+
+      let buttonApprove = document.createElement("button")
+      buttonApprove.innerHTML = "Approve contract"
+      buttonApprove.addEventListener("click", async function() {
+        if (signerAddress == recipientAddress) {
+          
+          await approveNfts(requesterNftAddresses, requesterNftIDs);
+
+        } else if (signerAddress == requesterAddress) {
+          await approveNfts(recipientNftAddresses, recipientNftIDs);
+        }
+      })
+
+      let buttonDiv = document.createElement("div")
+      buttonDiv.style.paddingTop = "2vh"
+
+      buttonDiv.appendChild(buttonApprove);
+      mainClass.appendChild(buttonDiv)
+      
     }
-     
-    //let OffersTitle = await document.createElement("h1")
-    //
-    //YouTitle.innerHTML = "You"
-    //YouTitle.style.left = "35vh"
-    //OtherTraderTitle.innerHTML = "Other Trader"
-    //OtherTraderTitle.style.left = "98vh"
-//
-    //  if (signerAddress == requesterAddress) {
-    //    if (requesterReady == true) {
-    //        YouTitle.innerHTML = await "You ✅"
-    //        YouTitle.style.left = await "25vh"
-//
-    //    } else if (requesterReady == false) {
-    //        YouTitle.innerHTML = "You ❌"
-    //        YouTitle.style.left = "35vh"
-//
-    //    }
-//
-    //    if (recipientReady == true) {
-    //        OtherTraderTitle.innerHTML = "Other Trader ✅"
-    //        OtherTraderTitle.style.left = "98vh"
-//
-    //    } else if (recipientReady == false) {
-    //        OtherTraderTitle.innerHTML = "Other Trader ❌"
-    //        OtherTraderTitle.style.left = "103vh"
-//
-    //    }
-//
-    //  } else if (signerAddress == recipientAddress){
-    //    if (recipientReady == true) {
-    //        YouTitle.innerHTML = "You ✅"
-    //        YouTitle.style.left = "25vh"
-//
-    //    } else if (recipientReady == false) {
-    //        YouTitle.innerHTML = "You ❌"
-    //        YouTitle.style.left = "35vh"
-//
-    //    }
-//
-    //    if (requesterReady == true) {
-    //        OtherTraderTitle.innerHTML = "Other Trader ✅"
-    //        OtherTraderTitle.style.left = "98vh"
-//
-    //    } else if (requesterReady == false) {
-    //        YouTitle.innerHTML = "You ❌"
-    //        YouTitle.style.left = "35vh"
-//
-    //    }
-  //}
+}
+
+async function approveNfts(addresses, IDs) {
+  for (let i = 0; i < addresses.length; i++) {
+    //remove quotation marks from address
+    let cleanedAddress = await addresses[i].replace(/^"(.*)"$/, '$1');
+
+    const contract = await new ethers.Contract(cleanedAddress, nftABIApprove, provider);
+
+    console.log(`CA: ${cleanedAddress} ID: ${IDs[i]}`)
+    //let owner = await contract.connect(signer).ownerOf(IDs[i])
+    //console.log(`owner ${await JSON.stringify(owner)}`)
+    console.log(`signer address ${signerAddress}`)
+    const transaction = await contract.connect(signer).approve(tradeContractAddress, IDs[i]);
+  }
 }
 
 async function voteOnTrade(result) {
@@ -278,6 +318,11 @@ export async function connectMetamask() {
   console.log("Account address: ", signerAddress)
   console.log("chain name: " + chainName) 
 }
+
+const nftABIApprove = [
+  "function approve(address to, uint256 tokenId)",
+  "function ownerOf(uint256 tokenId) returns (address)"
+] 
 
 const tradeABI = [
     {
