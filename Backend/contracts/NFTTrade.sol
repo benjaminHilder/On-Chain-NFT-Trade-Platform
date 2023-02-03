@@ -2,7 +2,7 @@ pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract NFTTrade {
+contract NFTTrade{
 
     //       reciever address   => index         => trade offer information
     //mapping (address => mapping(uint => TradeInfo)) tradeOffers;
@@ -10,6 +10,7 @@ contract NFTTrade {
     //mapping (address => uint) tradeOffersLength;
 
     mapping(address => TradeInfo[]) public tradeOffers;
+    
 
     struct TradeInfo {
         address requesterAddress;
@@ -43,6 +44,7 @@ contract NFTTrade {
         require(_recipientNftAddresses.length == _recipientNftIDs.length, "either not enough addresses or ids provided for recipient NFTs");
 
         TradeInfo memory newTrade;
+        
 
         newTrade.requesterAddress = msg.sender;
         newTrade.recipientAddress = _recipientAddress;
@@ -61,7 +63,7 @@ contract NFTTrade {
         newTrade.active = true;
         newTrade.result = false;
 
-        newTrade.requesterReady = false;
+        newTrade.requesterReady = true;
         newTrade.recipientReady = false;
 
         tradeOffers[msg.sender].push(newTrade);
@@ -121,14 +123,17 @@ contract NFTTrade {
     
     function acceptTrade(uint _tradeOfferIndex) public TradeMustBeActive(_tradeOfferIndex) {
         TradeInfo memory tradeInfo = tradeOffers[msg.sender][_tradeOfferIndex];
-
-        tradeOffers[msg.sender][_tradeOfferIndex].active = false;
-        tradeOffers[tradeInfo.requesterAddress][tradeInfo.requesterIndex].active = false;
+        
+        //requester is automatically voted to accept trade so only recipient needs to vote
+        require (msg.sender == tradeInfo.recipientAddress, "Only recipient of this offer can accept or decline");
+     
+        tradeOffers[msg.sender][_tradeOfferIndex].recipientReady = true;
+        tradeOffers[tradeInfo.requesterAddress][tradeInfo.requesterIndex].recipientReady = true;
+        
     }
 
     function declineTrade(uint _tradeOfferIndex) public TradeMustBeActive(_tradeOfferIndex) {
         TradeInfo memory tradeInfo = tradeOffers[msg.sender][_tradeOfferIndex];
-        //require(msg.sender == tradeInfo.recipientAddress, "Only recipient of a trade offer can decline a trade");
         
         tradeOffers[msg.sender][_tradeOfferIndex].active = false;
         tradeOffers[tradeInfo.requesterAddress][tradeInfo.requesterIndex].active = false;

@@ -3,7 +3,7 @@ export let signer
 export let signerAddress
 export let recipientAddress
 
-const tradeContractAddress = "0x2Fd136348FeF6BFD12CF5803e914dfeF665A9fA8";
+const tradeContractAddress = "0x8364846b14339e15F61E58F551Cd7896feA20A47";
 let mainClass = document.querySelector(".Offers");
 let innerClass = document.querySelector(".OffersInner")
 
