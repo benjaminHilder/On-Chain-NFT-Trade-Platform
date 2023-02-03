@@ -3,7 +3,7 @@ export let signer
 export let signerAddress
 export let recipientAddress
 
-const tradeContractAddress = "0x8364846b14339e15F61E58F551Cd7896feA20A47";
+const tradeContractAddress = "0xD444cd9c34A1EEE8D7B559EBa0D4C5E72CCaD179";
 
 let nftBoxes = document.querySelector(".UserNFTs");
 
@@ -23,7 +23,6 @@ class nftInfo {
 }
 
 window.onload = async function() {
-
   window.ethereum.on('accountsChanged', function (accounts) {
     // Check if accounts have changed
   });

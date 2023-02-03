@@ -3,7 +3,7 @@ export let signer
 export let signerAddress
 export let recipientAddress
 
-const tradeContractAddress = "0x8364846b14339e15F61E58F551Cd7896feA20A47";
+const tradeContractAddress = "0xD444cd9c34A1EEE8D7B559EBa0D4C5E72CCaD179";
 let mainClass = document.querySelector(".Offers");
 let innerClass = document.querySelector(".OffersInner")
 
@@ -74,98 +74,43 @@ async function loadOfferInfo() {
       recipientReady = false;
     }
 
+    if (result == "true") {
+      result = true;
+    } else if (result == "false") {
+      result = false;
+    }
+    
+    if (active == "true") {
+      active = true;
+    } else if (active == "false") {
+      active = false;
+    }
+
     let requesterDiv = await document.createElement("div")
-    requesterDiv.className = await "offerInfoRequesterDiv"
-
     let recipientDiv = await document.createElement("div")
-    recipientDiv.className = await "offerInfoRecipientDiv"
-
     let mainTradeAreaDiv = await document.createElement("div")
+
+    requesterDiv.className = await "offerInfoRequesterDiv"
+    recipientDiv.className = await "offerInfoRecipientDiv"
     mainTradeAreaDiv.className = await "mainTradeAreaDiv"
 
     let YouTitle = await document.createElement("h1")
     let OtherTraderTitle = await document.createElement("h1")
-    let OffersTitle = await document.createElement("h1")
-  
-    if (signerAddress == requesterAddress) {
-      if (requesterReady == true) {
-          YouTitle.innerHTML = await "You ✅"
-          YouTitle.style.left = await "25vh"
 
-      } else if (requesterReady == false) {
-          YouTitle.innerHTML = "You ❌"
-          YouTitle.style.left = "35vh"
+    //if recipient hasn't voted and user is recipient
+    if (result == false && signerAddress == recipientAddress && active == true) {
 
-      }
+      YouTitle.innerHTML = "You"
+      YouTitle.style.left = "35vh"
 
-      if (recipientReady == true) {
-          OtherTraderTitle.innerHTML = "Other Trader ✅"
-          OtherTraderTitle.style.left = "98vh"
+      OtherTraderTitle.innerHTML = "Other Trader"
+      OtherTraderTitle.style.left = "98vh"  
 
-      } else if (recipientReady == false) {
-          OtherTraderTitle.innerHTML = "Other Trader ❌"
-          OtherTraderTitle.style.left = "103vh"
+      mainClass.appendChild(YouTitle)
+      mainClass.appendChild(OtherTraderTitle)
+      let buttonDiv = document.createElement("div")
 
-      }
-
-    } else if (signerAddress == recipientAddress){
-      if (recipientReady == true) {
-          YouTitle.innerHTML = "You ✅"
-          YouTitle.style.left = "25vh"
-
-      } else if (recipientReady == false) {
-          YouTitle.innerHTML = "You ❌"
-          YouTitle.style.left = "35vh"
-
-      }
-
-      if (requesterReady == true) {
-          OtherTraderTitle.innerHTML = "Other Trader ✅"
-          OtherTraderTitle.style.left = "98vh"
-
-      } else if (requesterReady == false) {
-          YouTitle.innerHTML = "You ❌"
-          YouTitle.style.left = "35vh"
-
-      }
-    }
-
-    mainClass.appendChild(YouTitle)
-    mainClass.appendChild(OtherTraderTitle)
-    let buttonDiv = document.createElement("div")
-
-    buttonDiv.style.paddingTop = "2vh"
-
-    if (requesterReady == true && recipientReady == true) {
-      let buttonApproveContract = document.createElement("button")
-      buttonApproveContract.addEventListener("click", function () {
-
-      })
-      buttonApproveContract.innerHTML = "Approve Contract"
-
-      let buttContract = document.createElement("button")
-      buttonApproveContract.addEventListener("click", function () {
-
-      })
-      buttonApproveContract.innerHTML = "Approve Contract"
-    } else {
-      let buttonAccept = document.createElement("button")
-      buttonAccept.addEventListener("click", function() {
-        voteOnTrade(Vote.Accept)
-      })
-
-      buttonAccept.innerHTML = "Accept"
-
-    let buttonDecline = document.createElement("button")
-      buttonDecline.addEventListener("click", function() {
-      voteOnTrade(Vote.Decline)
-      })
-
-      buttonDecline.innerHTML = "Decline"
-
-      buttonDiv.appendChild(buttonAccept);
-      buttonDiv.appendChild(buttonDecline);
-    }
+      buttonDiv.style.paddingTop = "2vh"
 
     for(let i = 0; i < requesterNftAddresses.length; i++) {
         await displayNFT(requesterNftAddresses[i], requesterNftIDs[i], requesterDiv)
@@ -180,6 +125,87 @@ async function loadOfferInfo() {
 
     mainClass.appendChild(mainTradeAreaDiv)
     mainClass.appendChild(buttonDiv)
+
+    let buttonApproveContract = document.createElement("button")
+    buttonApproveContract.addEventListener("click", function () {
+    })
+      buttonApproveContract.innerHTML = "Approve Contract"
+      let buttContract = document.createElement("button")
+      buttonApproveContract.addEventListener("click", function () {
+    })
+      buttonApproveContract.innerHTML = "Approve Contract"
+    
+    let buttonAccept = document.createElement("button")
+      buttonAccept.addEventListener("click", function() {
+      voteOnTrade(Vote.Accept)
+    })
+      buttonAccept.innerHTML = "Accept"
+    let buttonDecline = document.createElement("button")
+      buttonDecline.addEventListener("click", function() {
+      voteOnTrade(Vote.Decline)
+    })
+      buttonDecline.innerHTML = "Decline"
+      buttonDiv.appendChild(buttonAccept);
+      buttonDiv.appendChild(buttonDecline);
+
+    } else if (result == false && signerAddress == requesterAddress && active == true) {
+      let waitingP = document.createElement("p")
+      provider.innerHTML == "Waiting for other trader to decide..."
+      mainClass.appendChild(waitingP)
+    
+    } else if (result == true && active == true) {
+      // voting
+    }
+     
+    //let OffersTitle = await document.createElement("h1")
+    //
+    //YouTitle.innerHTML = "You"
+    //YouTitle.style.left = "35vh"
+    //OtherTraderTitle.innerHTML = "Other Trader"
+    //OtherTraderTitle.style.left = "98vh"
+//
+    //  if (signerAddress == requesterAddress) {
+    //    if (requesterReady == true) {
+    //        YouTitle.innerHTML = await "You ✅"
+    //        YouTitle.style.left = await "25vh"
+//
+    //    } else if (requesterReady == false) {
+    //        YouTitle.innerHTML = "You ❌"
+    //        YouTitle.style.left = "35vh"
+//
+    //    }
+//
+    //    if (recipientReady == true) {
+    //        OtherTraderTitle.innerHTML = "Other Trader ✅"
+    //        OtherTraderTitle.style.left = "98vh"
+//
+    //    } else if (recipientReady == false) {
+    //        OtherTraderTitle.innerHTML = "Other Trader ❌"
+    //        OtherTraderTitle.style.left = "103vh"
+//
+    //    }
+//
+    //  } else if (signerAddress == recipientAddress){
+    //    if (recipientReady == true) {
+    //        YouTitle.innerHTML = "You ✅"
+    //        YouTitle.style.left = "25vh"
+//
+    //    } else if (recipientReady == false) {
+    //        YouTitle.innerHTML = "You ❌"
+    //        YouTitle.style.left = "35vh"
+//
+    //    }
+//
+    //    if (requesterReady == true) {
+    //        OtherTraderTitle.innerHTML = "Other Trader ✅"
+    //        OtherTraderTitle.style.left = "98vh"
+//
+    //    } else if (requesterReady == false) {
+    //        YouTitle.innerHTML = "You ❌"
+    //        YouTitle.style.left = "35vh"
+//
+    //    }
+  //}
 }
 
 async function voteOnTrade(result) {
