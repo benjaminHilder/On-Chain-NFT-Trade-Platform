@@ -188,6 +188,7 @@ async function getAllOffers() {
         }
       }
       let button = document.createElement("button") 
+      button.textContent = "View Offer"
 
       button.addEventListener("click", function () {
         goToTradeInfoPage(requesters, 
@@ -204,12 +205,7 @@ async function getAllOffers() {
                           requesterReady, 
                           recipientReady, 
                           i)
-          })
-
-        console.log(`requester ids: ${requesterNftIDs}`)
-        console.log(`recipient ids: ${recipientNftIDs}`)
-        button.textContent = "View Offer"
-      
+      })
 
       let newDiv = document.createElement("div")
       let header = document.createElement("p")
@@ -218,7 +214,6 @@ async function getAllOffers() {
       newDiv.className = "OfferBox"
       header.innerHTML = `Trade with address:`
       
-      console.log()
       if (signerAddress == requesters){
           addressValue.innerHTML = `${recipients}`
       } else {
@@ -232,12 +227,6 @@ async function getAllOffers() {
 
       let offersInner = document.querySelector(".OffersInner");
       offersInner.appendChild(offerDiv)
-      //format info
-
-      //setup box to be put in frontend
-      //popular box with info
-
-      //put box in screen
     }
 }
 
