@@ -93,11 +93,6 @@ async function getAllOffers() {
     const contract = await new ethers.Contract(tradeContractAddress, tradeABI, provider);
     const allOffers = await contract.getAllOffers(ethers.utils.getAddress(await signer.getAddress()))
 
-    let offerDiv = document.createElement("div");
-    offerDiv.className = "offerInnerDiv"  
-
-    
-
     for (let i = 0; i < allOffers.length; i++) {
       //info from offers
       //sort info into correct arrays
@@ -225,14 +220,12 @@ async function getAllOffers() {
       } else {
           addressValue.innerHTML = `${requesters}`
       }
-
       newDiv.appendChild(header)
       newDiv.appendChild(addressValue)
       newDiv.appendChild(button)
-      offerDiv.appendChild(newDiv)
 
       let offersInner = document.querySelector(".OffersInner");
-      offersInner.appendChild(offerDiv)
+      offersInner.appendChild(newDiv)
     }
 
 }

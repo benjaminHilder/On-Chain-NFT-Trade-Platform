@@ -6,12 +6,10 @@ export let recipientAddress
 import {tradeContractAddress, tradeABI} from '../util/util.js'
 
 let nftBoxes = document.querySelector(".UserNFTs");
-
 let RecipientTradeBox = document.getElementById("RecipientTradeBox")
 
 let UserSelected = new Set()
 let RecipientSelected = new Set()
-
 
 class nftInfo {
   constructor(contractAddress, ID, ImgURL) {

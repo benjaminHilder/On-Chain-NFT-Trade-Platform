@@ -21,6 +21,19 @@ input::-webkit-inner-spin-button {
     background-color: #999; /* sets the background color of the thumb */
 }
 
+.OffersInner::-webkit-scrollbar {
+    width: 5px; /* sets the width of the scrollbar */
+    height: 1px;
+    border-radius: 10px 10px 0 0; /* rounds the top corners of the scrollbar */
+    background-color: #ccc; /* sets the background color of the scrollbar */
+}
+
+/* styles the thumb (draggable part of the scrollbar) */
+.OffersInner::-webkit-scrollbar-thumb {
+    border-radius: 10px 10px 0 0; /* rounds the top corners of the thumb */
+    background-color: #999; /* sets the background color of the thumb */
+}
+
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
@@ -179,6 +192,31 @@ div.UserNFTs {
 
     height: 60vh;
     width: 72vh;
+
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+}
+
+div.OffersInner {
+    display:flex;
+    flex-wrap: wrap;
+    order: 4;
+    
+    justify-content: center;
+    margin-left: 1vh;
+    margin-right: 1vh;
+    margin-top: 1vh;
+    
+
+    padding-top: 1vh;
+
+    border-style: solid;
+    border-color: black;
+    border-radius: 25px;
+    border: 1px solid #2c3e50;
+
+    height: 62vh;
+    width: 132vh;
 
     overflow-y: scroll;
     -ms-overflow-style: none;
