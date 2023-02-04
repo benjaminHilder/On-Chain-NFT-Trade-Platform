@@ -106,7 +106,6 @@ async function loadOfferInfo() {
 
 
     for(let i = 0; i < requesterNftAddresses.length; i++) {
-      console.log(`asdasd ` + requesterNftIDs)
         await displayNFT(requesterNftAddresses[i], requesterNftIDs[i], requesterDiv)
     }
 

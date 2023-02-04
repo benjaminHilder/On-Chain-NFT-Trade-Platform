@@ -94,28 +94,29 @@ async function getAllOffers() {
     const contract = await new ethers.Contract(tradeContractAddress, tradeABI, provider);
     const allOffers = await contract.getAllOffers(ethers.utils.getAddress(await signer.getAddress()))
 
-    for (let i = 0; i < allOffers.length; i++) {
-      //info from offers
+    //info from offers
       //sort info into correct arrays
-      let requesters = []
-      let recipients = []
+    let requesters = []
+    let recipients = []
       
-      let requesterNftAddresses = []
-      let requesterNftIDs = []
+    let requesterNftAddresses = []
+    let requesterNftIDs = []
 
-      let recipientNftAddresses = []
-      let recipientNftIDs = []
+    let recipientNftAddresses = []
+    let recipientNftIDs = []
 
-      let requesterIndex = []
-      let recipientIndex = []
+    let requesterIndex = []
+    let recipientIndex = []
 
-      let timestamp = []
+    let timestamp = []
 
-      let active = []
-      let result = []
-      let requesterReady = []
-      let recipientReady = []
+    let active = []
+    let result = []
+    let requesterReady = []
+    let recipientReady = []
 
+
+    for (let i = 0; i < allOffers.length; i++) {
       for (let j = 0; j < allOffers[i].length; j++) {
         
         switch(j) {
@@ -128,7 +129,7 @@ async function getAllOffers() {
             break
           
           case 2:
-            recipientNftAddresses = allOffers[i][j]
+            requesterNftAddresses[i] = allOffers[i][j]
             break
 
           case 3:
@@ -139,13 +140,11 @@ async function getAllOffers() {
               normalIntArray1.push(parseInt(bigInt.toString()))
             }
             
-            recipientNftIDs = normalIntArray1
+            requesterNftIDs[i] = normalIntArray1
             break
 
           case 4:
-            
-            requesterNftAddresses = allOffers[i][j]
-            console.log(recipientNftAddresses)
+            recipientNftAddresses[i] = allOffers[i][j]
             break
 
           case 5:
@@ -157,7 +156,7 @@ async function getAllOffers() {
 
             }
             
-            requesterNftIDs = normalIntArray2
+            recipientNftIDs[i] = normalIntArray2
             break
 
           case 6:
@@ -187,50 +186,51 @@ async function getAllOffers() {
           case 12:
             recipientReady.push(allOffers[i][j])
             break
-        }
-        if (recipients[i] == signerAddress) {
-          let button = document.createElement("button") 
-          button.textContent = "View Offer"
-  
-          button.addEventListener("click", function () {
-            goToTradeInfoPage(requesters, 
-                              recipients, 
-                              requesterNftAddresses, 
-                              requesterNftIDs, 
-                              recipientNftAddresses, 
-                              recipientNftIDs, 
-                              requesterIndex, 
-                              recipientIndex, 
-                              timestamp, 
-                              active, 
-                              result, 
-                              requesterReady, 
-                              recipientReady, 
-                              i)
-          })
-  
-          let newDiv = document.createElement("div")
-          let header = document.createElement("p")
-          let addressValue = document.createElement("p")
-  
-          newDiv.className = "OfferBox"
-          header.innerHTML = `Trade with address:`
-          newDiv.style.margin = "0.5vh 0.5vh 0.5vh 0.5vh"
-  
-          if (signerAddress == requesters){
-              addressValue.innerHTML = `${recipients}`
-          } else {
-              addressValue.innerHTML = `${requesters}`
-          }
-          newDiv.appendChild(header)
-          newDiv.appendChild(addressValue)
-          newDiv.appendChild(button)
-  
-          let offersInner = document.querySelector(".OffersInner");
-          offersInner.appendChild(newDiv)
-        }
+        }  
       }
       
+      if (recipients[i] == signerAddress) {
+        let button = document.createElement("button") 
+        button.textContent = "View Offer"
+
+        button.addEventListener("click", function () {
+          
+        goToTradeInfoPage(requesters[i], 
+                          recipients[i], 
+                          requesterNftAddresses[i], 
+                          requesterNftIDs[i], 
+                          recipientNftAddresses[i], 
+                          recipientNftIDs[i], 
+                          requesterIndex[i], 
+                          recipientIndex[i], 
+                          timestamp[i], 
+                          active[i], 
+                          result[i], 
+                          requesterReady[i], 
+                          recipientReady[i], 
+                          i)
+        })
+
+        let newDiv = document.createElement("div")
+        let header = document.createElement("p")
+        let addressValue = document.createElement("p")
+
+        newDiv.className = "OfferBox"
+        header.innerHTML = `Trade with address:`
+        newDiv.style.margin = "0.5vh 0.5vh 0.5vh 0.5vh"
+
+        if (signerAddress == requesters){
+            addressValue.innerHTML = `${recipients}`
+        } else {
+            addressValue.innerHTML = `${requesters}`
+        }
+        newDiv.appendChild(header)
+        newDiv.appendChild(addressValue)
+        newDiv.appendChild(button)
+
+        let offersInner = document.querySelector(".OffersInner");
+        offersInner.appendChild(newDiv)
+      }
     }
 
 }

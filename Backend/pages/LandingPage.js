@@ -64,7 +64,7 @@ async function createTradeRequest() {
   }
 
   const contract = await new ethers.Contract(tradeContractAddress, tradeABI, provider);
-  const transaction = await contract.connect(signer).createTradeRequest(ethers.utils.getAddress(recipientAddress), recipientNftAddresses, recipientNftIDs, requesterNftAddresses, requesterNftIDs)
+  await contract.connect(signer).createTradeRequest(ethers.utils.getAddress(recipientAddress), requesterNftAddresses, requesterNftIDs, recipientNftAddresses, recipientNftIDs)
 }
 
 export async function connectMetamask() {

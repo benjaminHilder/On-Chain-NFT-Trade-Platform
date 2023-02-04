@@ -98,14 +98,14 @@ async function setupOffersButton() {
     offersRecievedButton.style.height = "10vh"
 
     offersSentButton.innerHTML = "Offers Sent"
-    offersRecievedButton.innerHTML = "Offers Sent"
+    offersRecievedButton.innerHTML = "Offers Received"
 
     offersSentButton.addEventListener("click", async function() {
       window.location = await "../Frontend/TradeOffersSent.html"
     })
 
     offersRecievedButton.addEventListener("click", async function() {
-      window.location = await "../Frontend/TradeOffersRecieved.html"
+      window.location = await "../Frontend/TradeOffersReceived.html"
     })
     
     offersInner.appendChild(offersSentButton)
