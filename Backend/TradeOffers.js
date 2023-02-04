@@ -3,7 +3,7 @@ export let signer
 export let signerAddress
 export let recipientAddress
 
-const tradeContractAddress = "0xE0976aC3cD60c77F13f6850C18d24581f0a1da8b";
+const tradeContractAddress = "0xbA3D571ca701B8d6ADC0Dfe34391449114Cd2247";
 
 window.onload = async function() {
   window.ethereum.on('accountsChanged', function (accounts) {
@@ -32,7 +32,7 @@ async function goToTradeInfoPage(requesterAddress,
                                  requesterNftAddresses, 
                                  requesterNftIDs, 
                                  recipientNftAddresses, 
-                                 recipentNftIds, 
+                                 recipientNftIDs, 
                                  requesterIndex, 
                                  recipientIndex, 
                                  timestamp, 
@@ -50,7 +50,7 @@ async function goToTradeInfoPage(requesterAddress,
 
   await sessionStorage.setItem("requesterNftIDs", JSON.stringify(requesterNftIDs));
   await sessionStorage.setItem("recipientNftAddresses", JSON.stringify(recipientNftAddresses));
-  await sessionStorage.setItem("recipentNtIds", JSON.stringify(recipentNftIds));
+  await sessionStorage.setItem("recipientNftIDs", JSON.stringify(recipientNftIDs));
   await sessionStorage.setItem("requesterIndex", requesterIndex);
   await sessionStorage.setItem("recipientIndex", recipientIndex);
   await sessionStorage.setItem("timestamp", timestamp);
@@ -96,6 +96,8 @@ async function getAllOffers() {
     let offerDiv = document.createElement("div");
     offerDiv.className = "offerInnerDiv"  
 
+    
+
     for (let i = 0; i < allOffers.length; i++) {
       //info from offers
       //sort info into correct arrays
@@ -119,6 +121,7 @@ async function getAllOffers() {
       let recipientReady = []
 
       for (let j = 0; j < allOffers[i].length; j++) {
+        
         switch(j) {
           case 0:
             requesters.push(allOffers[i][j])
@@ -140,10 +143,11 @@ async function getAllOffers() {
               normalIntArray1.push(parseInt(bigInt.toString()))
             }
             
-            recipentNftIds = normalIntArray1
+            recipientNftIDs = normalIntArray1
             break
 
           case 4:
+            
             requesterNftAddresses = allOffers[i][j]
             console.log(recipientNftAddresses)
             break
@@ -230,6 +234,7 @@ async function getAllOffers() {
       let offersInner = document.querySelector(".OffersInner");
       offersInner.appendChild(offerDiv)
     }
+
 }
 
 const tradeABI = [

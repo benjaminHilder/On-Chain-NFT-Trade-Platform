@@ -82,13 +82,22 @@ describe("Functions of the NFTTrade solidity smart contract", async function() {
         
         await NftTradeContract.connect(acc2).acceptTrade(0);
 
-        await NftTradeContract.connect(acc1).giveContractAccessToNFTs(0)
-        await NftTradeContract.connect(acc2).giveContractAccessToNFTs(0)
+        for(let i = 0; i < requesterNftAddresses.length; i++) {
+            NftContract.connect(acc1).approve(NftTradeContract.address, requesterNftIDs[i])
+        }
+
+        for(let i = 0; i < recipientNftAddresses.length; i++) {
+            NftContract.connect(acc2).approve(NftTradeContract.address, recipientNftIDs[i])
+        }
 
         console.log(`address of trade contract ${await NftTradeContract.address}`)
         console.log(`approved addresses: ${await NftContract.connect(acc2).getApproved(0)}`)
 
-        //await NftTradeContract.connect(acc1).excuteTrade(0)
+        console.log(`owner before: ${await NftContract.ownerOf(0)}`)
+
+        await NftTradeContract.connect(acc1).excuteTrade(0)
+        console.log(`owner before: ${await NftContract.ownerOf(0)}`)
+        
     })
     
 })

@@ -3,7 +3,7 @@ export let signer
 export let signerAddress
 export let recipientAddress
 
-const tradeContractAddress = "0xE0976aC3cD60c77F13f6850C18d24581f0a1da8b";
+const tradeContractAddress = "0xbA3D571ca701B8d6ADC0Dfe34391449114Cd2247";
 let mainClass = document.querySelector(".Offers");
 let innerClass = document.querySelector(".OffersInner")
 
@@ -14,7 +14,7 @@ const Vote = {
 }
 
 window.onload = async function() {
-  window.ethereum.on('accountsChanged', function (accounts) {
+  window.ethereum.on('accountsChanged', function (accounts) { 
     // Check if accounts have changed
   });
 
@@ -54,27 +54,13 @@ async function loadOfferInfo() {
       await recipientNftAddresses.push(JSON.stringify(recipientNftAddressesResult[i]))
     }
 
-    let recipientNftIDs = await JSON.parse(sessionStorage.getItem("recipentNftIds"))
+    let recipientNftIDs = await JSON.parse(sessionStorage.getItem("recipientNftIDs"))
     let requesterIndex = await sessionStorage.getItem("requesterIndex")
     let recipientIndex = await sessionStorage.getItem("recipientIndex")
     let timestamp = await sessionStorage.getItem("timestamp")
     let active = await sessionStorage.getItem("active")
     let result = await sessionStorage.getItem("result")
-    let requesterReady = await sessionStorage.getItem("requesterReady")
-    let recipientReady = await sessionStorage.getItem("recipientReady")
     let tradeIndex = await sessionStorage.getItem("tradeIndex")
-
-    if (requesterReady == "true") {
-      requesterReady = true;
-    } else if (requesterReady == "false") {
-      requesterReady = false;
-    }
-
-    if (recipientReady == "true") {
-      recipientReady = true;
-    } else if (recipientReady == "false") {
-      recipientReady = false;
-    }
 
     if (result == "true") {
       result = true;
@@ -118,7 +104,9 @@ async function loadOfferInfo() {
 
       buttonDiv.style.paddingTop = "2vh"
 
+
     for(let i = 0; i < requesterNftAddresses.length; i++) {
+      console.log(`asdasd ` + requesterNftIDs)
         await displayNFT(requesterNftAddresses[i], requesterNftIDs[i], requesterDiv)
     }
 
@@ -161,49 +149,69 @@ async function loadOfferInfo() {
       mainClass.appendChild(waitingP)
     
     } else if (result == true && active == true) {
-      if (signerAddress == requesterAddress) {
-        if (requesterReady == true) {
-          YouTitle.innerHTML = "You ✅"
-          YouTitle.style.left = "25vh"
+      //let requesterHasApprovedAll = true;
+      //let recipientHasApprovedAll = true;
 
-        } else if (requesterReady == false) {
-
-          YouTitle.innerHTML = "You ❌"
-          YouTitle.style.left = "35vh"
-        }
-
-        if (recipientReady == true) {
-          
-          OtherTraderTitle.innerHTML = "Other Trader ✅"
-          OtherTraderTitle.style.left = "98vh"
-
-        } else if (recipientReady == false) {
-          
-          OtherTraderTitle.innerHTML = "Other Trader ❌"
-          OtherTraderTitle.style.left = "103vh"
-
-        }
-
-      } else if (signerAddress == recipientAddress){
-        if (recipientReady == true) {
-          YouTitle.innerHTML = "You ✅"
-          YouTitle.style.left = "25vh"
-
-        } else if (recipientReady == false) {
-          YouTitle.innerHTML = "You ❌"
-          YouTitle.style.left = "35vh"
-
-        }
-
-        if (requesterReady == true) {
-          OtherTraderTitle.innerHTML = "Other Trader ✅"
-          OtherTraderTitle.style.left = "98vh"
-
-        } else if (requesterReady == false) {
-          OtherTraderTitle.innerHTML = "Other Trader ❌"
-          OtherTraderTitle.style.left = "98vh"
-        }
-      }
+      //for (let i = 0; i < requesterNftAddresses[i]; i++) {
+      //  const contract = await new ethers.Contract(requesterNftAddresses[i], nftABIApprove, provider);
+      //  const result = await contract.ownerOf(requesterNftIDs[i]);
+      //  console.log(result)
+      //  if (result != requesterAddress) {
+      //    requesterHasApprovedAll = false;
+      //    break;
+      //  }
+      //}
+//
+      //for (let i = 0; i < recipientNftAddresses[i]; i++) {
+      //  const contract = await new ethers.Contract(recipientNftAddresses[i], nftABIApprove, provider);
+      //  const result = await contract.ownerOf(recipientNftIDs[i]);
+      //  
+      //  if (result != recipientAddress) {
+      //    recipientHasApprovedAll = false;
+      //    break;
+      //  }
+      //}
+//
+      //if (signerAddress == requesterAddress) {
+      //  if (requesterHasApprovedAll == true) {
+      //    YouTitle.innerHTML = "You ✅"
+      //    YouTitle.style.left = "25vh"
+//
+      //  } else if (requesterHasApprovedAll == false) {
+      //    YouTitle.innerHTML = "You ❌"
+      //    YouTitle.style.left = "35vh"
+      //  }
+//
+      //  if (recipientHasApprovedAll == true) {
+      //    OtherTraderTitle.innerHTML = "Other Trader ✅"
+      //    OtherTraderTitle.style.left = "98vh"
+//
+      //  } else if (recipientHasApprovedAll == false) {
+      //    OtherTraderTitle.innerHTML = "Other Trader ❌"
+      //    OtherTraderTitle.style.left = "103vh"
+//
+      //  }
+//
+      //} else if (signerAddress == recipientAddress){
+      //  if (recipientHasApprovedAll == true) {
+      //    YouTitle.innerHTML = "You ✅"
+      //    YouTitle.style.left = "25vh"
+//
+      //  } else if (recipientHasApprovedAll == false) {
+      //    YouTitle.innerHTML = "You ❌"
+      //    YouTitle.style.left = "35vh"
+//
+      //  }
+//
+      //  if (requesterHasApprovedAll == true) {
+      //    OtherTraderTitle.innerHTML = "Other Trader ✅"
+      //    OtherTraderTitle.style.left = "98vh"
+//
+      //  } else if (requesterHasApprovedAll == false) {
+      //    OtherTraderTitle.innerHTML = "Other Trader ❌"
+      //    OtherTraderTitle.style.left = "98vh"
+      //  }
+      //}
 
       let approveTitle = document.createElement("h1");
       approveTitle.innerHTML = "Approved Contract"
@@ -213,23 +221,34 @@ async function loadOfferInfo() {
       mainClass.appendChild(OtherTraderTitle)
 
       let buttonApprove = document.createElement("button")
-      buttonApprove.innerHTML = "Approve contract"
+      let buttonExecuteTrade = document.createElement("button")
+
+      buttonApprove.innerHTML = "Approve Contract"
+      buttonExecuteTrade.innerHTML = "Execute Trade"
+
       buttonApprove.addEventListener("click", async function() {
         if (signerAddress == recipientAddress) {
-          
-          await approveNfts(requesterNftAddresses, requesterNftIDs);
+          await approveNfts(recipientNftAddresses, recipientNftIDs);
 
         } else if (signerAddress == requesterAddress) {
-          await approveNfts(recipientNftAddresses, recipientNftIDs);
+          await approveNfts(requesterNftAddresses, requesterNftIDs);
         }
+      })
+
+      buttonExecuteTrade.addEventListener("click", async function() {
+        const contract = await new ethers.Contract(tradeContractAddress, tradeABI, provider);
+        //let owner = await contract.connect(signer).ownerOf(IDs[i])
+        await contract.connect(signer).excuteTrade(await parseInt(tradeIndex));
       })
 
       let buttonDiv = document.createElement("div")
       buttonDiv.style.paddingTop = "2vh"
 
+      buttonExecuteTrade.style.marginLeft = "1vh"
+
       buttonDiv.appendChild(buttonApprove);
-      mainClass.appendChild(buttonDiv)
-      
+      buttonDiv.appendChild(buttonExecuteTrade)
+      mainClass.appendChild(buttonDiv)  
     }
 }
 
@@ -237,13 +256,8 @@ async function approveNfts(addresses, IDs) {
   for (let i = 0; i < addresses.length; i++) {
     //remove quotation marks from address
     let cleanedAddress = await addresses[i].replace(/^"(.*)"$/, '$1');
-
     const contract = await new ethers.Contract(cleanedAddress, nftABIApprove, provider);
-
-    console.log(`CA: ${cleanedAddress} ID: ${IDs[i]}`)
     //let owner = await contract.connect(signer).ownerOf(IDs[i])
-    //console.log(`owner ${await JSON.stringify(owner)}`)
-    console.log(`signer address ${signerAddress}`)
     const transaction = await contract.connect(signer).approve(tradeContractAddress, IDs[i]);
   }
 }
@@ -313,8 +327,6 @@ export async function connectMetamask() {
   }
 
   signerAddress = await signer.getAddress();
-  console.log("sadasd    " + signerAddress)
-
   console.log("Account address: ", signerAddress)
   console.log("chain name: " + chainName) 
 }
@@ -325,239 +337,206 @@ const nftABIApprove = [
 ] 
 
 const tradeABI = [
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_tradeOfferIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "acceptTrade",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_recipientAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "address[]",
-          "name": "_requesterNftAddresses",
-          "type": "address[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "_requesterNftIDs",
-          "type": "uint256[]"
-        },
-        {
-          "internalType": "address[]",
-          "name": "_recipientNftAddresses",
-          "type": "address[]"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "_recipientNftIDs",
-          "type": "uint256[]"
-        }
-      ],
-      "name": "createTradeRequest",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_tradeOfferIndex",
-          "type": "uint256"
-        }
-      ],
-      "name": "declineTrade",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_index",
-          "type": "uint256"
-        }
-      ],
-      "name": "excuteTrade",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_index",
-          "type": "uint256"
-        }
-      ],
-      "name": "giveContractAccessToNFTs",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_address",
-          "type": "address"
-        }
-      ],
-      "name": "getAllOffers",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "address",
-              "name": "requesterAddress",
-              "type": "address"
-            },
-            {
-              "internalType": "address",
-              "name": "recipientAddress",
-              "type": "address"
-            },
-            {
-              "internalType": "address[]",
-              "name": "requesterNftAddresses",
-              "type": "address[]"
-            },
-            {
-              "internalType": "uint256[]",
-              "name": "requesterNftIDs",
-              "type": "uint256[]"
-            },
-            {
-              "internalType": "address[]",
-              "name": "recipientNftAddresses",
-              "type": "address[]"
-            },
-            {
-              "internalType": "uint256[]",
-              "name": "recipientNftIDs",
-              "type": "uint256[]"
-            },
-            {
-              "internalType": "uint256",
-              "name": "requesterIndex",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "recipientIndex",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "timestamp",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bool",
-              "name": "active",
-              "type": "bool"
-            },
-            {
-              "internalType": "bool",
-              "name": "result",
-              "type": "bool"
-            },
-            {
-              "internalType": "bool",
-              "name": "requesterReady",
-              "type": "bool"
-            },
-            {
-              "internalType": "bool",
-              "name": "recipientReady",
-              "type": "bool"
-            }
-          ],
-          "internalType": "struct NFTTrade.TradeInfo[]",
-          "name": "",
-          "type": "tuple[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "tradeOffers",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "requesterAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "recipientAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "requesterIndex",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "recipientIndex",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "timestamp",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "active",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "result",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "requesterReady",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "recipientReady",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ]
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_tradeOfferIndex",
+				"type": "uint256"
+			}
+		],
+		"name": "acceptTrade",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_recipientAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address[]",
+				"name": "_requesterNftAddresses",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_requesterNftIDs",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "address[]",
+				"name": "_recipientNftAddresses",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_recipientNftIDs",
+				"type": "uint256[]"
+			}
+		],
+		"name": "createTradeRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_tradeOfferIndex",
+				"type": "uint256"
+			}
+		],
+		"name": "declineTrade",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			}
+		],
+		"name": "excuteTrade",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "getAllOffers",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "requesterAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "recipientAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address[]",
+						"name": "requesterNftAddresses",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "requesterNftIDs",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "address[]",
+						"name": "recipientNftAddresses",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "recipientNftIDs",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "requesterIndex",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "recipientIndex",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "active",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "offerResult",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct NFTTrade.TradeInfo[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "tradeOffers",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "requesterAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "recipientAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "requesterIndex",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "recipientIndex",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "active",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "offerResult",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]

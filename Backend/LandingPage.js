@@ -3,7 +3,7 @@ export let signer
 export let signerAddress
 export let recipientAddress
 
-const tradeContractAddress = "0xE0976aC3cD60c77F13f6850C18d24581f0a1da8b";
+const tradeContractAddress = "0xbA3D571ca701B8d6ADC0Dfe34391449114Cd2247";
 
 let nftBoxes = document.querySelector(".UserNFTs");
 
@@ -347,19 +347,6 @@ async function createNFTBoxes() {
       {
         "inputs": [
           {
-            "internalType": "uint256",
-            "name": "_index",
-            "type": "uint256"
-          }
-        ],
-        "name": "giveContractAccessToNFTs",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
             "internalType": "address",
             "name": "_address",
             "type": "address"
@@ -421,17 +408,7 @@ async function createNFTBoxes() {
               },
               {
                 "internalType": "bool",
-                "name": "result",
-                "type": "bool"
-              },
-              {
-                "internalType": "bool",
-                "name": "requesterReady",
-                "type": "bool"
-              },
-              {
-                "internalType": "bool",
-                "name": "recipientReady",
+                "name": "offerResult",
                 "type": "bool"
               }
             ],
@@ -490,17 +467,7 @@ async function createNFTBoxes() {
           },
           {
             "internalType": "bool",
-            "name": "result",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "requesterReady",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "recipientReady",
+            "name": "offerResult",
             "type": "bool"
           }
         ],

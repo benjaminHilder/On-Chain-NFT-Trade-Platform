@@ -29,8 +29,6 @@ contract NFTTrade{
 
         bool active;
         bool offerResult;
-        bool requesterReady;
-        bool recipientReady;
     }
 
     modifier TradeMustBeActive (uint _index) {
@@ -43,7 +41,6 @@ contract NFTTrade{
         require(_recipientNftAddresses.length == _recipientNftIDs.length, "either not enough addresses or ids provided for recipient NFTs");
 
         TradeInfo memory newTrade;
-        
 
         newTrade.requesterAddress = msg.sender;
         newTrade.recipientAddress = _recipientAddress;
@@ -62,55 +59,23 @@ contract NFTTrade{
         newTrade.active = true;
         newTrade.offerResult = false;
 
-        newTrade.requesterReady = false;
-        newTrade.recipientReady = false;
-
         tradeOffers[msg.sender].push(newTrade);
         tradeOffers[_recipientAddress].push(newTrade);
-    }
-
-    function giveContractAccessToNFTs(uint _index) public {
-        TradeInfo memory trade = tradeOffers[msg.sender][_index];
-        require(trade.active == true, "trade offer not decided yet");
-        require(trade.offerResult == true, "trade offer not accepted yet");
-
-        if (msg.sender == trade.requesterAddress) {
-            for (uint i = 0; i < trade.requesterNftAddresses.length; i++) {
-                trade.requesterNftAddresses[i].delegatecall(
-                        abi.encodeWithSignature("approve(address,uint256)", address(this), trade.requesterNftIDs[i])
-                        );
-            }
-
-        } else if (msg.sender == trade.recipientAddress) {
-            for (uint i = 0; i < trade.recipientNftAddresses.length; i++) {
-                trade.recipientNftAddresses[i].delegatecall(
-                        abi.encodeWithSignature("approve(address,uint256)", address(this), trade.recipientNftIDs[i])
-                        );
-            }
-        }
-
-        if (trade.requesterAddress == msg.sender) {
-            tradeOffers[msg.sender][_index].requesterReady = true;
-            tradeOffers[trade.recipientAddress][trade.recipientIndex].requesterReady = true;
-        } else {
-            tradeOffers[msg.sender][_index].recipientReady = true;
-            tradeOffers[trade.requesterAddress][trade.requesterIndex].recipientReady = true;
-        }
     }
 
     function excuteTrade(uint _index) public {
         TradeInfo memory trade = tradeOffers[msg.sender][_index];
 
-        require(trade.requesterReady == true && trade.recipientReady == true);
-
         for (uint i = 0; i < trade.requesterNftAddresses.length; i++) {
             ERC721 NFT = ERC721(trade.requesterNftAddresses[i]);
-            NFT.transferFrom(trade.requesterAddress, trade.recipientAddress, trade.requesterNftIDs[i]);
+            
+            NFT.transferFrom(trade.recipientAddress, trade.requesterAddress, trade.requesterNftIDs[i]);
         }
 
         for (uint i = 0; i < trade.recipientNftAddresses.length; i++) {
             ERC721 NFT = ERC721(trade.recipientNftAddresses[i]);
-            NFT.transferFrom(trade.recipientAddress, trade.requesterAddress, trade.requesterNftIDs[i]);
+
+            NFT.transferFrom(trade.requesterAddress, trade.recipientAddress, trade.recipientNftIDs[i]);
         }
     }
     
