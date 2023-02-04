@@ -235,8 +235,8 @@ async function setupBackButton() {
   let backButton = document.createElement("button")
   backButton.innerHTML = "Back"
   backButton.style.position = "absolute"
-  backButton.style.left = "5vh"
-  backButton.style.top = "4.25vh"
+  backButton.style.left = "8vh"
+  backButton.style.top = "8vh"
 
   backButton.addEventListener("click", function() {
     window.location = "../Frontend/TradeOffers.html"

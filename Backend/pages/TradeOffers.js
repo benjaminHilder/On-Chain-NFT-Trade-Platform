@@ -6,6 +6,7 @@ export let recipientAddress
 import {tradeContractAddress, tradeABI} from '../util/util.js'
 
 window.onload = async function() {
+
   window.ethereum.on('accountsChanged', function (accounts) {
     // Check if accounts have changed
   });
@@ -25,7 +26,8 @@ window.onload = async function() {
   });
     document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
     document.getElementById("tradeNavButton").addEventListener("click", function() {window.location = "../Frontend/LandingPage.html"});
-}
+
+  }
 
 async function goToTradeInfoPage(requesterAddress, 
                                  recipientAddress, 
