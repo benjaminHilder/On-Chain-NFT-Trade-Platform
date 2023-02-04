@@ -85,148 +85,30 @@ export async function connectMetamask() {
     console.log("Account address: ", signerAddress)
     console.log("chain name: " + chainName) 
 
-    getAllOffers();
+    setupOffersButton();
 }
 
-async function getAllOffers() {
-    //get from smart contract offers
-    const contract = await new ethers.Contract(tradeContractAddress, tradeABI, provider);
-    const allOffers = await contract.getAllOffers(ethers.utils.getAddress(await signer.getAddress()))
+async function setupOffersButton() {
+    let offersInner = document.querySelector(".OffersInner");
 
-    for (let i = 0; i < allOffers.length; i++) {
-      //info from offers
-      //sort info into correct arrays
-      let requesters = []
-      let recipients = []
-      
-      let requesterNftAddresses = []
-      let requesterNftIDs = []
+    let offersSentButton = document.createElement("button")
+    let offersRecievedButton = document.createElement("button")
 
-      let recipientNftAddresses = []
-      let recipientNftIDs = []
+    offersSentButton.style.height = "10vh"
+    offersRecievedButton.style.height = "10vh"
 
-      let requesterIndex = []
-      let recipientIndex = []
+    offersSentButton.innerHTML = "Offers Sent"
+    offersRecievedButton.innerHTML = "Offers Sent"
 
-      let timestamp = []
+    offersSentButton.addEventListener("click", async function() {
+      window.location = await "../Frontend/TradeOffersSent.html"
+    })
 
-      let active = []
-      let result = []
-      let requesterReady = []
-      let recipientReady = []
-
-      for (let j = 0; j < allOffers[i].length; j++) {
-        
-        switch(j) {
-          case 0:
-            requesters.push(allOffers[i][j])
-            break
-          
-          case 1:
-            recipients.push(allOffers[i][j])
-            break
-          
-          case 2:
-            recipientNftAddresses = allOffers[i][j]
-            break
-
-          case 3:
-            let normalIntArray1 = []
-          
-            for(let l = 0; l < allOffers[i][j].length; l++) {
-              let bigInt = BigInt(allOffers[i][j][l])
-              normalIntArray1.push(parseInt(bigInt.toString()))
-            }
-            
-            recipientNftIDs = normalIntArray1
-            break
-
-          case 4:
-            
-            requesterNftAddresses = allOffers[i][j]
-            console.log(recipientNftAddresses)
-            break
-
-          case 5:
-            let normalIntArray2 = []
-          
-            for(let l = 0; l < allOffers[i][j].length; l++) {
-              let bigInt = BigInt(allOffers[i][j][l])
-              normalIntArray2.push(parseInt(bigInt.toString()))
-
-            }
-            
-            requesterNftIDs = normalIntArray2
-            break
-
-          case 6:
-            requesterIndex.push(allOffers[i][j])
-            break
-
-          case 7:
-            recipientIndex.push(allOffers[i][j])
-            break
-
-          case 8:
-            timestamp.push(allOffers[i][j])
-            break
-
-          case 9:
-            active.push(allOffers[i][j])
-            break
-
-          case 10:
-            result.push(allOffers[i][j])
-            break
-
-          case 11:
-            requesterReady.push(allOffers[i][j])
-            break
-            
-          case 12:
-            recipientReady.push(allOffers[i][j])
-            break
-        }
-      }
-      let button = document.createElement("button") 
-      button.textContent = "View Offer"
-
-      button.addEventListener("click", function () {
-        goToTradeInfoPage(requesters, 
-                          recipients, 
-                          requesterNftAddresses, 
-                          requesterNftIDs, 
-                          recipientNftAddresses, 
-                          recipientNftIDs, 
-                          requesterIndex, 
-                          recipientIndex, 
-                          timestamp, 
-                          active, 
-                          result, 
-                          requesterReady, 
-                          recipientReady, 
-                          i)
-      })
-
-      let newDiv = document.createElement("div")
-      let header = document.createElement("p")
-      let addressValue = document.createElement("p")
-
-      newDiv.className = "OfferBox"
-      header.innerHTML = `Trade with address:`
-      
-      if (signerAddress == requesters){
-          addressValue.innerHTML = `${recipients}`
-      } else {
-          addressValue.innerHTML = `${requesters}`
-      }
-      newDiv.appendChild(header)
-      newDiv.appendChild(addressValue)
-      newDiv.appendChild(button)
-
-      let offersInner = document.querySelector(".OffersInner");
-      offersInner.appendChild(newDiv)
-    }
-
+    offersRecievedButton.addEventListener("click", async function() {
+      window.location = await "../Frontend/TradeOffersRecieved.html"
+    })
+    
+    offersInner.appendChild(offersSentButton)
+    offersInner.appendChild(offersRecievedButton)
 }
 

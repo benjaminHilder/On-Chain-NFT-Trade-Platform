@@ -216,7 +216,7 @@ div.OffersInner {
     border: 1px solid #2c3e50;
 
     height: 62vh;
-    width: 132vh;
+    width: 135vh;
 
     overflow-y: scroll;
     -ms-overflow-style: none;
@@ -240,8 +240,8 @@ div.offerInfoRequesterDiv {
     border-radius: 25px;
     border: 1px solid #2c3e50;
 
-    height: 60vh;
-    width: 72vh;
+    height: 57vh;
+    width: 65vh;
 
 }
 
@@ -262,8 +262,8 @@ div.offerInfoRecipientDiv {
     border-radius: 25px;
     border: 1px solid #2c3e50;
 
-    height: 60vh;
-    width: 72vh;
+    height: 57vh;
+    width: 65vh;
 
 }
 

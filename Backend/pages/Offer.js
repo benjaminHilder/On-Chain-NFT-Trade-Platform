@@ -8,7 +8,6 @@ import {tradeContractAddress, tradeABI, nftABIApprove} from '../util/util.js'
 let mainClass = document.querySelector(".Offers");
 let innerClass = document.querySelector(".OffersInner")
 
-
 const Vote = {
     Accept: 0,
     Decline: 1
@@ -117,8 +116,8 @@ async function loadOfferInfo() {
 
     mainTradeAreaDiv.appendChild(requesterDiv)
     mainTradeAreaDiv.appendChild(recipientDiv)
-
-    mainClass.appendChild(mainTradeAreaDiv)
+//
+    innerClass.appendChild(mainTradeAreaDiv)
     mainClass.appendChild(buttonDiv)
 
     let buttonApproveContract = document.createElement("button")
@@ -150,70 +149,6 @@ async function loadOfferInfo() {
       mainClass.appendChild(waitingP)
     
     } else if (result == true && active == true) {
-      //let requesterHasApprovedAll = true;
-      //let recipientHasApprovedAll = true;
-
-      //for (let i = 0; i < requesterNftAddresses[i]; i++) {
-      //  const contract = await new ethers.Contract(requesterNftAddresses[i], nftABIApprove, provider);
-      //  const result = await contract.ownerOf(requesterNftIDs[i]);
-      //  console.log(result)
-      //  if (result != requesterAddress) {
-      //    requesterHasApprovedAll = false;
-      //    break;
-      //  }
-      //}
-//
-      //for (let i = 0; i < recipientNftAddresses[i]; i++) {
-      //  const contract = await new ethers.Contract(recipientNftAddresses[i], nftABIApprove, provider);
-      //  const result = await contract.ownerOf(recipientNftIDs[i]);
-      //  
-      //  if (result != recipientAddress) {
-      //    recipientHasApprovedAll = false;
-      //    break;
-      //  }
-      //}
-//
-      //if (signerAddress == requesterAddress) {
-      //  if (requesterHasApprovedAll == true) {
-      //    YouTitle.innerHTML = "You ✅"
-      //    YouTitle.style.left = "25vh"
-//
-      //  } else if (requesterHasApprovedAll == false) {
-      //    YouTitle.innerHTML = "You ❌"
-      //    YouTitle.style.left = "35vh"
-      //  }
-//
-      //  if (recipientHasApprovedAll == true) {
-      //    OtherTraderTitle.innerHTML = "Other Trader ✅"
-      //    OtherTraderTitle.style.left = "98vh"
-//
-      //  } else if (recipientHasApprovedAll == false) {
-      //    OtherTraderTitle.innerHTML = "Other Trader ❌"
-      //    OtherTraderTitle.style.left = "103vh"
-//
-      //  }
-//
-      //} else if (signerAddress == recipientAddress){
-      //  if (recipientHasApprovedAll == true) {
-      //    YouTitle.innerHTML = "You ✅"
-      //    YouTitle.style.left = "25vh"
-//
-      //  } else if (recipientHasApprovedAll == false) {
-      //    YouTitle.innerHTML = "You ❌"
-      //    YouTitle.style.left = "35vh"
-//
-      //  }
-//
-      //  if (requesterHasApprovedAll == true) {
-      //    OtherTraderTitle.innerHTML = "Other Trader ✅"
-      //    OtherTraderTitle.style.left = "98vh"
-//
-      //  } else if (requesterHasApprovedAll == false) {
-      //    OtherTraderTitle.innerHTML = "Other Trader ❌"
-      //    OtherTraderTitle.style.left = "98vh"
-      //  }
-      //}
-
       let approveTitle = document.createElement("h1");
       approveTitle.innerHTML = "Approved Contract"
 
