@@ -93,6 +93,13 @@ div.Offers {
     height: 80vh;
 }
 
+
+.tradeButton {
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+}
+
 #offerNavButton {
     position: absolute;
     right: 83vh;
@@ -197,18 +204,25 @@ div.UserNFTs {
     -ms-overflow-style: none;
 }
 
+div.buttonDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    
+    position: absolute;
+    bottom:1vh;
+    left: 7vh;
+
+    width: 135vh; 
+    height: 10vh;
+}
+
 div.OffersInner {
     display:flex;
     flex-wrap: wrap;
-    order: 4;
-    
-    justify-content: center;
-    margin-left: 1vh;
-    margin-right: 1vh;
-    margin-top: 1vh;
-    
 
-    padding-top: 1vh;
+    justify-content: center;
 
     border-style: solid;
     border-color: black;

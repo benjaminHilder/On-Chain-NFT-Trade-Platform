@@ -6,7 +6,6 @@ export let recipientAddress
 import {tradeContractAddress, tradeABI} from '../util/util.js'
 
 window.onload = async function() {
-
   window.ethereum.on('accountsChanged', function (accounts) {
     // Check if accounts have changed
   });
@@ -86,6 +85,11 @@ export async function connectMetamask() {
     
     console.log("Account address: ", signerAddress)
     console.log("chain name: " + chainName) 
+    let title = document.createElement("h1")
+    title.innerHTML = "Trade Offers";
+
+    let offersMain = document.querySelector(".Offers");
+    offersMain.appendChild(title)
 
     setupOffersButton();
 }
@@ -109,8 +113,24 @@ async function setupOffersButton() {
     offersRecievedButton.addEventListener("click", async function() {
       window.location = await "../Frontend/TradeOffersReceived.html"
     })
-    
+
+    offersRecievedButton.style.position = "absolute"
+    offersRecievedButton.style.right = "20%"
+    offersRecievedButton.style.marginTop = "2%"
+    offersRecievedButton.style.width = "25vh"
+    offersRecievedButton.style.height = "5vh"
+    offersRecievedButton.style.fontSize = "2vh"
+
+    offersSentButton.style.position = "absolute"
+    offersSentButton.style.left = "20%"
+    offersSentButton.style.marginTop = "2%"
+    offersSentButton.style.width = "25vh"
+    offersSentButton.style.height = "5vh"
+    offersSentButton.style.fontSize = "2vh"
+
+
     offersInner.appendChild(offersSentButton)
     offersInner.appendChild(offersRecievedButton)
+    offersMain.append(offersInner)
 }
 

@@ -6,7 +6,8 @@ export let recipientAddress
 import {tradeContractAddress, tradeABI, nftABIApprove} from '../util/util.js'
 
 let mainClass = document.querySelector(".Offers");
-let innerClass = document.querySelector(".OffersInner")
+let innerClass = document.querySelector(".OffersInner2")
+let underClass = document.querySelector(".OffersUnder")
 
 const Vote = {
     Accept: 0,
@@ -14,6 +15,7 @@ const Vote = {
 }
 
 window.onload = async function() {
+ 
   window.ethereum.on('accountsChanged', function (accounts) { 
     // Check if accounts have changed
   });
@@ -34,7 +36,8 @@ window.onload = async function() {
   });
     await document.getElementById("connectWalletButton").addEventListener("click", connectMetamask);
     await setupBackButton();
-}
+    
+    //console.log(`nfts: ${getNftImageFromIcyGraphQL(signerAddress)}`)
 
 async function loadOfferInfo() {
     // Get the offer number from session storage
@@ -149,14 +152,15 @@ async function loadOfferInfo() {
     
     } else if (result == true && active == true) {
       let approveTitle = document.createElement("h1");
-      approveTitle.innerHTML = "Approved Contract"
+      approveTitle.innerHTML = "Approve Contract"
 
-      mainClass.appendChild(YouTitle)
       mainClass.appendChild(approveTitle)
-      mainClass.appendChild(OtherTraderTitle)
 
       let buttonApprove = document.createElement("button")
       let buttonExecuteTrade = document.createElement("button")
+
+      buttonApprove.className = "tradeButton"
+      buttonExecuteTrade.className = "tradeButton"
 
       buttonApprove.innerHTML = "Approve Contract"
       buttonExecuteTrade.innerHTML = "Execute Trade"
@@ -177,15 +181,80 @@ async function loadOfferInfo() {
       })
 
       let buttonDiv = document.createElement("div")
-      buttonDiv.style.paddingTop = "2vh"
-
-      buttonExecuteTrade.style.marginLeft = "1vh"
+      buttonDiv.className = "buttonDiv"
 
       buttonDiv.appendChild(buttonApprove);
       buttonDiv.appendChild(buttonExecuteTrade)
-      mainClass.appendChild(buttonDiv)  
+
+      underClass.appendChild(buttonDiv)  
+
+     
     }
 }
+
+//ync function getNftImageFromIcyGraphQL(context) {
+//const address = context.query["address"]
+//
+//const myQuery = JSON.stringify({
+//    query: `query Wallet($address: String, $after: String, $first: Int) {
+//      wallet(address: $address) {
+//        tokens(after: $after, first: $first) {
+//          edges {
+//            node {
+//              tokenId
+//              contract {
+//              ... on ERC721Contract {
+//                symbol
+//                name
+//                } 
+//              }
+//              images {
+//                url
+//              }
+//              ... on -ERC721Token {
+//                metadata{
+//                  image
+//                }
+//              }
+//            }
+//          }
+//          pageInfo {
+//            startCursor
+//            hasPreviousPage
+//            hasNextPage
+//            endCursor
+//          }
+//        }
+//      }
+//    }`,
+//    variables: {  
+//    "address": address,
+//    "after": null,
+//    "first": 10
+//  },
+//});
+
+//  const res = await fetch("https://graphql.icy.tools/graphql", {
+//    method: "POST",
+//    body: myQuery,
+//    headers: {
+//      "x-api-key": process.env.API_KEY ?? "",
+//      "content-type": "application/json",
+//    }
+//  }).then((response) => response.json())//
+
+//  const data = await res;//
+
+//  console.log(data);//
+
+//  console.log(address)
+//  return {
+//    props: {
+//      address,
+//      data: data.data.wallet.tokens.edges,
+//    },
+//  };
+//}
 
 async function approveNfts(addresses, IDs) {
   for (let i = 0; i < addresses.length; i++) {
@@ -235,8 +304,8 @@ async function setupBackButton() {
   let backButton = document.createElement("button")
   backButton.innerHTML = "Back"
   backButton.style.position = "absolute"
-  backButton.style.left = "8vh"
-  backButton.style.top = "8vh"
+  backButton.style.left = "9vh"
+  backButton.style.top = "4.5vh"
 
   backButton.addEventListener("click", function() {
     window.location = "../Frontend/TradeOffers.html"
@@ -245,7 +314,7 @@ async function setupBackButton() {
   mainClass.appendChild(backButton)
 }
 
-export async function connectMetamask() {
+async function connectMetamask() {
   
   await provider.send("eth_requestAccounts", []);
   signer = await provider.getSigner();
@@ -264,4 +333,5 @@ export async function connectMetamask() {
   signerAddress = await signer.getAddress();
   console.log("Account address: ", signerAddress)
   console.log("chain name: " + chainName) 
+  }
 }

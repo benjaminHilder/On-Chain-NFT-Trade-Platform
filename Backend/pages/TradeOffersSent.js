@@ -7,10 +7,11 @@ import {tradeContractAddress, tradeABI} from '../util/util.js'
 
 window.onload = async function() {
   let backButton = document.getElementById("backButton")
-  
+
   backButton.style.position = "absolute"
   backButton.style.left = "8vh"
   backButton.style.top = "5vh"
+
   window.ethereum.on('accountsChanged', function (accounts) {
     // Check if accounts have changed
   });
